@@ -171,7 +171,7 @@
             <div class="cell" data-title="限辦日期"><span>{{item.FinalDate}}</span></div>
             <div class="cell" data-title="承辦人">{{item.User}}</div>
             <div class="cell text-nowrap" data-title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
-                data-bs-toggle="modal" data-bs-target="#extendModal">展辦</button>
+              @click="extendDoc(item)">展辦</button>
             </div>
           </template>
         </l-c-grid>

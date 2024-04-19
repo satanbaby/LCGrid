@@ -33,12 +33,17 @@ createApp({
     function changeUser() {
       alert('異動承辦人');
     }
+    function extendDoc(doc){
+      console.log(doc.CaseNo)
+      alert('展辦:' + doc.CaseNo)
+    }
     return {
       list,
       deleteItems,
       exportList,
       changeUser,
-
+      extendDoc,
+      
       child,
     };
   },
