@@ -1,0 +1,183 @@
+<!-- 共用模版 -->
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>訴願資料管理 ｜訴願管理系統</title>
+    <link href="css/pagination.css" rel="stylesheet" type="text/css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"
+    />
+
+    <!-- 主視覺 css -->
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body cz-shortcut-listen="true">
+    <!-- Set navitem to active -->
+
+    <nav class="top-nav navbar navbar-light fixed-top justify-content-end">
+      <div>
+        您好，
+        <a href="#"
+          ><i class="fas fa-user pe-1" aria-hidden="true"></i
+          >王大明(linkchain1923)</a
+        >
+        <span>&nbsp;｜ </span>
+        <a href="login.html">登出</a>
+      </div>
+    </nav>
+    <nav
+      class="second-nav navbar navbar-expand-lg navbar-light bg-light fixed-top bg-white shadow-sm"
+    >
+      <div class="container-fluid p-0">
+        <a class="navbar-brand" href="index.html">
+          <div class="fw-bold main-color01">訴願管理系統</div>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="document-case.html"
+                >公文案件管理</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="petition-data.html"
+                >訴願資料管理</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 主內容Start -->
+    <main role="main">
+      <!-- 內容切換 -->
+
+      <div class="container-fluid" id="app">
+        <div class="main-title">
+          <h5>訴願資料管理{{message}}</h5>
+          <nav aria-label="breadcrumb" class="d-none d-sm-inline-block ms-auto">
+            <ol class="breadcrumb bg-transparent p-0 m-0">
+              <li class="breadcrumb-item">
+                <a href="#" class="text-secondary"
+                  ><i class="fas fa-home me-1" aria-hidden="true"></i> 首頁</a
+                >
+              </li>
+              <li class="breadcrumb-item">
+                <a href="#" class="text-secondary">選單大項</a>
+              </li>
+              <li
+                class="breadcrumb-item font-weight-bold main-color01 active"
+                aria-current="page"
+              >
+                當前頁面
+              </li>
+            </ol>
+          </nav>
+        </div>
+        <!-- <l-c-grid :query-url="/hello/world"> -->
+        <!-- query-url="/hello/world" -->
+        <l-c-grid 
+          ref="child"
+          query-url="url: /hello/world"
+          :cols="[
+            '',
+            '序號',
+            '公文文號',
+            '案號',
+            '來文日期',
+            '收文日期',
+            '限辦日期',
+            '承辦人',
+            '狀態',
+          ]"
+          >
+          <template #search="{searchModel}">
+            <div class="row">
+              <div class="col-md-6 col-lg-3 mb-3">
+                <label for="input0" class="form-label">關鍵字</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="searchModel.KeyWord"
+                />
+              </div>
+            </div>
+          </template>
+          <template #toolbar>
+            <div class="col-md-6">
+              <button class="btn btn-danger btn-sm me-1" @click="deleteItems">
+                <i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除
+              </button>
+              <button
+                class="btn btn-color01 btn-sm me-1"
+                data-bs-toggle="modal"
+                data-bs-target="#exportModal"
+                @click="exportList"
+              >
+                <i class="fas fa-file-alt me-2" aria-hidden="true"></i
+                >匯出明細表
+              </button>
+              <button class="btn btn-color01 btn-sm me-1" @click="changeUser">
+                <i class="fas fa-user-edit me-2" aria-hidden="true"></i
+                >異動承辦人
+              </button>
+            </div>
+            <div class="col-md-6 text-md-end mt-2 mt-md-0">
+              <div class="me-3 d-inline text-primary">
+                <i class="fas fa-circle me-1"></i>十日內到期案件
+              </div>
+              <div class="me-3 d-inline text-success">
+                <i class="fas fa-circle me-1"></i>今日到期案件
+              </div>
+              <div class="me-3 d-inline text-danger">
+                <i class="fas fa-circle me-1"></i>逾期案件
+              </div>
+            </div>
+          </template>
+          <template #rows="{item}">
+            <div class="cell" data-title="選取">
+              <div class="d-inline">
+                <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" v-model="item.selected">
+              </div>
+            </div>
+            <div class="cell" :class="{'text-danger': item.selected}" data-title="序號">{{item.SN}}</a></div>
+            <div class="cell" data-title="公文文號"><a href="petition-data-detail.html" class="link-color px-0">{{item.ReceNo}}</a></div>
+            <div class="cell" data-title="案號">{{item.CaseNo}}</div>
+            <div class="cell" data-title="來文日期">{{item.ComeDate}}</div>
+            <div class="cell" data-title="收文日期">{{item.ReceDate}}</div>
+            <div class="cell" data-title="限辦日期"><span>{{item.FinalDate}}</span></div>
+            <div class="cell" data-title="承辦人">{{item.User}}</div>
+            <div class="cell text-nowrap" data-title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
+                data-bs-toggle="modal" data-bs-target="#extendModal">展辦</button>
+            </div>
+          </template>
+        </l-c-grid>
+      </div>
+    </main>
+    <script type="module" src="./src/index.js"></script>
+    <template id="test2">asdfasdf</template>
+  </body>
+</html>
