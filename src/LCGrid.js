@@ -1,4 +1,5 @@
 import fakeData from './fakeApiData.js';
+import LCColumn from './LCColumn.js'
 import {
   ref,
   reactive,
@@ -14,6 +15,9 @@ export default {
     // dataSource: Object,
     queryUrl: String,
     cols: Array,
+  },
+  components: {
+    LCColumn,
   },
   setup(props) {
     const resetData = {
@@ -71,6 +75,23 @@ export default {
     function getSelected() {
       return dataSource.value.rows.filter((_) => _.selected);
     }
+
+    const changeSort = (clickCol)=>{
+      const sortName = clickCol.sortName
+      if(!sortName)
+      return
+      console.log('修改排序狀態', )
+
+      let clickField = sortName
+      let currentField = searchData.value.sortField
+      let currentAction = searchData.value.sortAction
+      let nextAction = currentField === clickField && currentAction === 'ASC'
+            ? 'DESC' : 'ASC'
+
+      searchData.value.sortAction = nextAction
+      searchData.value.sortField = clickField
+      console.log(clickField, currentField, currentAction, nextAction)
+    }
     return {
       dataSource,
       queryUrl: props.queryUrl,
@@ -81,6 +102,7 @@ export default {
       previousPage,
       jumpToPage,
       changePageSize,
+      changeSort,
 
       query,
       queryAll,
@@ -111,9 +133,12 @@ export default {
     </div>
     <div class="table m-0">
       <div class="row list-header bg-gray-light text-nowrap">
-        <div class="cell" v-for="item in cols">
-          {{item}}
-        </div>
+        <l-c-column 
+          v-for="item in cols"
+          :column=item
+          @click="changeSort(item)"
+          >
+        </l-c-column>
       </div>
       <div class="row list-body" v-for="item in dataSource.rows">
         <slot name="rows" :item></slot>

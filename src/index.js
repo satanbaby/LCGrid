@@ -1,7 +1,5 @@
 import './styles.scss';
 import LCGrid from './LCGrid.js';
-import LCColumn from './LCColumn.js';
-// import fakeData from './fakeApiData.js';
 
 import {
   createApp,
@@ -12,7 +10,6 @@ import {
 createApp({
   components: {
     LCGrid,
-    LCColumn,
   },
   setup() {
     const list = ref({});
