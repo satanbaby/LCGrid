@@ -1,5 +1,5 @@
 import './styles.scss';
-import LCGrid from './LCGrid.js';
+import LcGrid from './LcGrid.js';
 
 import {
   createApp,
@@ -9,7 +9,7 @@ import {
 } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 createApp({
   components: {
-    LCGrid,
+    LcGrid,
   },
   setup() {
     const list = ref({});

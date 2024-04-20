@@ -1,5 +1,5 @@
 import fakeData from './fakeApiData.js';
-import LCColumn from './LCColumn.js'
+import LcColumn from './LcColumn.js'
 import {
   ref,
   computed,
@@ -26,7 +26,7 @@ export default {
     rememberQuery: { type: Boolean, default: () => true }
   },
   components: {
-    LCColumn,
+    LcColumn,
   },
   setup(props) {
     const resetData = {
@@ -162,13 +162,13 @@ export default {
     </div>
     <div class="table m-0">
       <div class="row list-header bg-gray-light text-nowrap">
-        <l-c-column 
+        <lc-column 
           v-for="item in cols"
           :column=item
           :searchData=searchData
           @click="changeSort(item)"
           >
-        </l-c-column>
+        </lc-column>
       </div>
       <template v-if="dataSource.total">
         <div class="row list-body" v-for="item in dataSource.rows">
