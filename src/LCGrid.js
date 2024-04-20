@@ -92,7 +92,8 @@ export default {
 
       searchData.value.sortAction = nextAction
       searchData.value.sortField = clickField
-      console.log(clickField, currentField, currentAction, nextAction)
+
+      query()
     }
     return {
       dataSource,
