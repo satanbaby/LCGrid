@@ -59,7 +59,7 @@ export default {
       if(fromDom){
         searchData.value.nowPage = 1
       }
-
+      
       // 取代為AJAX
       dataSource.value = { ...fakeData.paginateData(searchData.value) };
     }
@@ -67,16 +67,6 @@ export default {
       searchData.value = { ...resetData };
       query();
     }
-    const serializedData = computed(() => {
-      return JSON.stringify(
-        {
-          searchModel: searchData.value,
-          grid: dataSource.value,
-        },
-        null,
-        2
-      );
-    });
     const getTotalPate = () => {
       return Math.ceil(dataSource.value.total / searchData.value.pageSize);
     };
@@ -101,6 +91,7 @@ export default {
 
       query()
     }
+
     return {
       dataSource,
       queryUrl: props.queryUrl,
@@ -117,7 +108,6 @@ export default {
       queryAll,
       getSelected,
 
-      serializedData,
       totalPage,
     };
   },
@@ -125,6 +115,7 @@ export default {
 <div>
   <form class="p-3 bg-white custom-shadow">
     <slot name="search" :searchModel="searchData"></slot>
+    <pre style="font-size: 8px">{{searchData}}</pre>
     <hr class="mt-0" />
     <div class="text-end">
       <button type="button" class="btn btn-color01 px-4 btn-sm" @click="query(true)">
@@ -163,7 +154,7 @@ export default {
   <div class="list-pagination mt-3">
     <div>
       每頁
-      <select class="form-select form-select-sm" v-model="searchData.pageSize" @change="changePageSize">
+      <select class="form-select form-select-sm" v-model.number="searchData.pageSize" @change="changePageSize">
         <option>10</option>
         <option>30</option>
         <option>50</option>
@@ -176,7 +167,7 @@ export default {
       頁｜<a href="javascript:void(0)" class="link-color" @click="nextPage">下一頁</a>
     </div>
   </div>
-  <pre>{{serializedData}}</pre>
+  <pre>{{dataSource}}</pre>
 </div>
   `,
 };
