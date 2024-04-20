@@ -2,7 +2,6 @@ import fakeData from './fakeApiData.js';
 import LCColumn from './LCColumn.js'
 import {
   ref,
-  reactive,
   computed,
 } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 /**
@@ -49,10 +48,8 @@ export default {
     }
 
     function query() {
-      // alert(JSON.stringify(searchData.value, null, 2));
+      // 取代為AJAX
       dataSource.value = { ...fakeData.paginateData(searchData.value) };
-      // console.log(dataSource)
-      //console.log(fakeData.paginateData(searchData.value))
     }
     function queryAll() {
       searchData.value = { ...resetData };
@@ -79,8 +76,7 @@ export default {
     const changeSort = (clickCol)=>{
       const sortName = clickCol.sortName
       if(!sortName)
-      return
-      console.log('修改排序狀態', )
+        return
 
       let clickField = sortName
       let currentField = searchData.value.sortField

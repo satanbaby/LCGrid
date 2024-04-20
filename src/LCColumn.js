@@ -1,8 +1,15 @@
 import { ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 export default {
   props: {
-    column: [String, Object],
-    searchData: Object
+    /** 外部傳入的欄位設定 */
+    column: [String, {columnName: String, sortName: String}],
+    /** 外部搜尋條件 */
+    searchData: {
+      pageSize: Number,
+      sortField: String,
+      sortAction: String,
+      nowPage: Number,
+    }
   },
   setup(props) {
     const columnName = ref('')
@@ -17,11 +24,7 @@ export default {
       sortName.value = props.column.sortName
       sortType.value = props.column.sortType ?? ''
     }
-    const actionStyle = {
-      ASC: 'fa-caret-up',
-      DESC: 'fa-caret-down',
-      '': 'fa-caret-left',
-    }
+
     const getActionStyle = computed(()=>{
       if(sortName.value !== search.value.sortField)
         return "fa-caret-left"
