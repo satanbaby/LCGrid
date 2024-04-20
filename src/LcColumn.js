@@ -1,4 +1,4 @@
-import { ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { ref, computed, toRef } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 export default {
   props: {
     /** 外部傳入的欄位設定 */
@@ -15,7 +15,7 @@ export default {
     const columnName = ref('')
     const sortName = ref('')
     const sortType = ref('')
-    const search = ref(props.searchData)
+    const search = toRef(props, 'searchData')
     
     if (typeof props.column === 'string') {
       columnName.value = props.column
@@ -45,7 +45,7 @@ export default {
     }
   },
   template: `
-  <div class="cell">
+  <div class="cell user-select-none">
     {{columnName}}
     <i class="sortIcon px-1 fa" :class=getActionStyle
       v-if="sortName"
