@@ -7,13 +7,18 @@ import {
 /**
  * todo:
  * 儲存搜尋紀錄再session storage
- * 欄位排序
  */
 export default {
   props: {
-    // dataSource: Object,
+    /** API網址 */
     queryUrl: String,
+    /** 欄位資訊 */
     cols: Array,
+    /** 預設 searchModel */
+    defaultSearchModel: {
+      type: Object,
+      default: ()=> {return {}}
+    },
   },
   components: {
     LCColumn,
@@ -25,7 +30,8 @@ export default {
       sortAction: 'ASC',
       nowPage: 1,
     };
-    let searchData = ref({ ...resetData });
+    let searchData = ref({ ...resetData, ...props.defaultSearchModel });
+    console.log(searchData.value)
     let dataSource = ref(fakeData.paginateData(searchData.value));
     let cols = ref(props.cols)
 
