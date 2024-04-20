@@ -3,6 +3,7 @@ import LCColumn from './LCColumn.js'
 import {
   ref,
   computed,
+  onMounted
 } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
 /**
  * todo:
@@ -17,8 +18,12 @@ export default {
     /** 預設 searchModel */
     defaultSearchModel: {
       type: Object,
-      default: ()=> {return {}}
+      default: () => { return {} }
     },
+    /** 儲存當前資料 */
+    guid: String,
+    initQuery: { type: Boolean, default: () => true },
+    rememberQuery: { type: Boolean, default: () => true }
   },
   components: {
     LCColumn,
@@ -34,7 +39,7 @@ export default {
       ...props.defaultSearchModel
     }
     let searchData = ref({ ...resetData });
-    let dataSource = ref(fakeData.paginateData(searchData.value));
+    let dataSource = ref({rows: [], total: 0});
     let cols = ref(props.cols)
 
     function nextPage() {
@@ -56,10 +61,14 @@ export default {
     }
 
     function query(fromDom = false) {
-      if(fromDom){
+      if (fromDom) {
         searchData.value.nowPage = 1
       }
-      
+
+      if (props.rememberQuery) {
+        setSessionStorage(searchData.value)
+      }
+
       // 取代為AJAX
       dataSource.value = { ...fakeData.paginateData(searchData.value) };
     }
@@ -75,22 +84,42 @@ export default {
       return dataSource.value.rows.filter((_) => _.selected);
     }
 
-    const changeSort = (clickCol)=>{
+    const changeSort = (clickCol) => {
       const sortName = clickCol.sortName
-      if(!sortName)
+      if (!sortName)
         return
 
       let clickField = sortName
       let currentField = searchData.value.sortField
       let currentAction = searchData.value.sortAction
       let nextAction = currentField === clickField && currentAction === 'ASC'
-            ? 'DESC' : 'ASC'
+        ? 'DESC' : 'ASC'
 
       searchData.value.sortAction = nextAction
       searchData.value.sortField = clickField
 
       query()
     }
+
+    const setSessionStorage = () => {
+      const guid = props.guid
+      sessionStorage[guid] = JSON.stringify(searchData.value)
+    }
+    const getSessionStorage = () => {
+      const guid = props.guid
+      const storedObj = sessionStorage[guid]
+      return JSON.parse(storedObj ?? null)
+    }
+
+    onMounted(() => {
+      const previosSearchModel = getSessionStorage()
+      if(props.rememberQuery){
+        if (previosSearchModel) {
+          searchData.value = previosSearchModel
+        }
+      }
+      query()
+    })
 
     return {
       dataSource,
