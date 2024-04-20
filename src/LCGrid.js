@@ -25,13 +25,15 @@ export default {
   },
   setup(props) {
     const resetData = {
-      pageSize: 10,
-      sortField: 'ID',
-      sortAction: 'ASC',
-      nowPage: 1,
-    };
+      ...{
+        pageSize: 10,
+        sortField: 'ID',
+        sortAction: 'ASC',
+        nowPage: 1,
+      },
+      ...props.defaultSearchModel
+    }
     let searchData = ref({ ...resetData, ...props.defaultSearchModel });
-    console.log(searchData.value)
     let dataSource = ref(fakeData.paginateData(searchData.value));
     let cols = ref(props.cols)
 
