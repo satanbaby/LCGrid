@@ -136,6 +136,7 @@ export default {
         <l-c-column 
           v-for="item in cols"
           :column=item
+          :searchData=searchData
           @click="changeSort(item)"
           >
         </l-c-column>

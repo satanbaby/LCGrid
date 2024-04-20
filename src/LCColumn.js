@@ -7,10 +7,9 @@ export default {
   setup(props) {
     const columnName = ref('')
     const sortName = ref('')
-    console.log(props)
     const sortType = ref('')
+    const search = ref(props.searchData)
     
-
     if (typeof props.column === 'string') {
       columnName.value = props.column
     } else if (typeof props.column === 'object') {
@@ -23,21 +22,29 @@ export default {
       DESC: 'fa-caret-down',
       '': 'fa-caret-left',
     }
-    const getActionStyle = ()=>{
-      return 'fa-caret-left'
-    }
+    const getActionStyle = computed(()=>{
+      if(sortName.value !== search.value.sortField)
+        return "fa-caret-left"
+      
+      if(search.value.sortAction === 'ASC')
+        return 'fa-caret-up'
+
+      if(search.value.sortAction === 'DESC')
+        return 'fa-caret-down'
+    })
 
     return {
       columnName,
       sortName,
       sortType,
       getActionStyle,
+      search,
     }
   },
   template: `
   <div class="cell">
     {{columnName}}
-    <i class="sortIcon px-1 fa fa-caret-left"
+    <i class="sortIcon px-1 fa" :class=getActionStyle
       v-if="sortName"
     ></i>
   </div>
