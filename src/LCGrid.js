@@ -55,7 +55,11 @@ export default {
       query();
     }
 
-    function query() {
+    function query(fromDom = false) {
+      if(fromDom){
+        searchData.value.nowPage = 1
+      }
+
       // 取代為AJAX
       dataSource.value = { ...fakeData.paginateData(searchData.value) };
     }
@@ -123,7 +127,7 @@ export default {
     <slot name="search" :searchModel="searchData"></slot>
     <hr class="mt-0" />
     <div class="text-end">
-      <button type="button" class="btn btn-color01 px-4 btn-sm" @click="query">
+      <button type="button" class="btn btn-color01 px-4 btn-sm" @click="query(true)">
         <i class="fas fa-search me-2"></i>查詢
       </button>
       <button type="button" class="btn btn-secondary btn-sm" @click="queryAll">
