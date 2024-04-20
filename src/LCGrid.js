@@ -137,9 +137,14 @@ export default {
           >
         </l-c-column>
       </div>
-      <div class="row list-body" v-for="item in dataSource.rows">
-        <slot name="rows" :item></slot>
-      </div>
+      <template v-if="dataSource.total">
+        <div class="row list-body" v-for="item in dataSource.rows">
+          <slot name="rows" :item></slot>
+        </div>
+      </template>
+    </div>
+    <div class="text-center text-dark" v-if="!dataSource.total">
+      查無資料！
     </div>
   </div>
   <div class="list-pagination mt-3">
