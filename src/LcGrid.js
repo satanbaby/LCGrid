@@ -1,26 +1,26 @@
 import fakeData from './fakeApiData.js';
-import LcColumn from './LcColumn.js'
+import LcColumn from './LcColumn.js';
 import {
   ref,
   computed,
   onMounted
 } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
-/**
- * todo:
- * 儲存搜尋紀錄再session storage
- */
+
+const DEFAULT_SEARCH_MODEL = {
+  pageSize: 10,
+  sortField: 'ID',
+  sortAction: 'ASC',
+  nowPage: 1,
+};
+
 export default {
   props: {
-    /** API網址 */
     queryUrl: String,
-    /** 欄位資訊 */
     cols: Array,
-    /** 預設 searchModel */
     defaultSearchModel: {
       type: Object,
-      default: () => { return {} }
+      default: () => ({})
     },
-    /** 儲存當前資料 */
     guid: String,
     initQuery: { type: Boolean, default: () => true },
     rememberQuery: { type: Boolean, default: () => true }
@@ -29,103 +29,97 @@ export default {
     LcColumn,
   },
   setup(props) {
-    const resetData = {
-      ...{
-        pageSize: 10,
-        sortField: 'ID',
-        sortAction: 'ASC',
-        nowPage: 1,
-      },
-      ...props.defaultSearchModel
-    }
-    let searchData = ref({ ...resetData });
-    let dataSource = ref({rows: [], total: 0});
-    let cols = ref(props.cols)
+    const searchData = ref({ ...DEFAULT_SEARCH_MODEL, ...props.defaultSearchModel });
+    const dataSource = ref({rows: [], total: 0});
 
-    function nextPage() {
-      if (searchData.value.nowPage >= getTotalPate()) return;
+    const nextPage = () => {
+      if (searchData.value.nowPage >= getTotalPage()) return;
       searchData.value.nowPage++;
       query();
-    }
-    function previousPage() {
+    };
+
+    const previousPage = () => {
       if (searchData.value.nowPage <= 1) return;
       searchData.value.nowPage--;
       query();
-    }
-    function jumpToPage() {
+    };
+
+    const jumpToPage = () => {
       query();
-    }
-    function changePageSize() {
+    };
+
+    const changePageSize = () => {
       searchData.value.nowPage = 1;
       query();
-    }
+    };
 
-    function query(fromDom = false) {
+    const query = (fromDom = false) => {
       if (fromDom) {
-        searchData.value.nowPage = 1
+        searchData.value.nowPage = 1;
       }
 
       if (props.rememberQuery) {
-        setSessionStorage(searchData.value)
+        setSessionStorage(searchData.value);
       }
 
-      // 取代為AJAX
+      // AJAX call to replace fakeData
       dataSource.value = { ...fakeData.paginateData(searchData.value) };
-    }
-    function queryAll() {
-      searchData.value = { ...resetData };
+    };
+
+    const queryAll = () => {
+      searchData.value = { ...DEFAULT_SEARCH_MODEL };
       query();
-    }
-    const getTotalPate = () => {
+    };
+
+    const getTotalPage = () => {
       return Math.ceil(dataSource.value.total / searchData.value.pageSize);
     };
-    const totalPage = computed(getTotalPate);
-    function getSelected() {
-      return dataSource.value.rows.filter((_) => _.selected);
-    }
+
+    const totalPage = computed(getTotalPage);
+
+    const getSelected = () => {
+      return dataSource.value.rows.filter(_ => _.selected);
+    };
 
     const changeSort = (clickCol) => {
-      const sortName = clickCol.sortName
-      if (!sortName)
-        return
+      const sortName = clickCol.sortName;
+      if (!sortName) return;
 
-      let clickField = sortName
-      let currentField = searchData.value.sortField
-      let currentAction = searchData.value.sortAction
-      let nextAction = currentField === clickField && currentAction === 'ASC'
-        ? 'DESC' : 'ASC'
+      const { sortField, sortAction } = searchData.value;
+      const nextAction = sortField === sortName && sortAction === 'ASC' ? 'DESC' : 'ASC';
 
-      searchData.value.sortAction = nextAction
-      searchData.value.sortField = clickField
+      searchData.value.sortAction = nextAction;
+      searchData.value.sortField = sortName;
 
-      query()
-    }
+      query();
+    };
 
     const setSessionStorage = () => {
-      const guid = props.guid
-      sessionStorage[guid] = JSON.stringify(searchData.value)
-    }
+      const guid = props.guid;
+      sessionStorage[guid] = JSON.stringify(searchData.value);
+    };
+
     const getSessionStorage = () => {
-      const guid = props.guid
-      const storedObj = sessionStorage[guid]
-      return JSON.parse(storedObj ?? null)
-    }
+      const guid = props.guid;
+      const storedObj = sessionStorage[guid];
+      return JSON.parse(storedObj ?? null);
+    };
 
     onMounted(() => {
-      const previosSearchModel = getSessionStorage()
-      if(props.rememberQuery){
-        if (previosSearchModel) {
-          searchData.value = previosSearchModel
+      if (props.rememberQuery) {
+        const previousSearchModel = getSessionStorage();
+        if (previousSearchModel) {
+          searchData.value = previousSearchModel;
         }
       }
-      query()
-    })
+      query();
+    });
 
     return {
       dataSource,
       queryUrl: props.queryUrl,
       searchData,
-      cols,
+      cols: ref(props.cols),
 
       nextPage,
       previousPage,
@@ -136,7 +130,6 @@ export default {
       query,
       queryAll,
       getSelected,
-
       totalPage,
     };
   },
