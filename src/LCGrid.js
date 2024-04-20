@@ -33,7 +33,7 @@ export default {
       },
       ...props.defaultSearchModel
     }
-    let searchData = ref({ ...resetData, ...props.defaultSearchModel });
+    let searchData = ref({ ...resetData });
     let dataSource = ref(fakeData.paginateData(searchData.value));
     let cols = ref(props.cols)
 
