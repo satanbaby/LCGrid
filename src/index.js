@@ -7,7 +7,7 @@ const {
   onMounted,
   watch
 } = Vue;
-createApp({
+const app = createApp({
   components: {
     LcGrid,
   },
@@ -47,4 +47,10 @@ createApp({
       child,
     };
   },
-}).mount('#app');
+});
+app.use(primevue.config.default)
+app.component('calendar', primevue.calendar);
+app.component('dropdown', primevue.dropdown);
+app.component('checkbox', primevue.checkbox);
+app.component('radioButton', primevue.radiobutton);
+app.mount('#app')

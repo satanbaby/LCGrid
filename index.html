@@ -14,7 +14,7 @@
       type="text/css"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-
+    <link rel="stylesheet" href="https://unpkg.com/primevue/resources/themes/aura-light-green/theme.css" />
     <!-- 主視覺 css -->
     <link href="css/style.css" rel="stylesheet" type="text/css" />
   </head>
@@ -118,6 +118,31 @@
           >
           <template #search="{searchModel}">
             <div class="row">
+              
+              <div class="col-md-4 mb-3">
+                <label for="input0" class="form-label">收文日期</label>
+                <div class="row g-2">
+					<div class="col position-relative">
+						<calendar
+              show-icon icon-display="input"
+              v-model="searchModel.StartDate"
+              date-format="yy/mm/dd"
+              placeholder="yyyy/MM/dd" 
+            ></calendar>
+					</div>
+          <div class="col-1 d-flex align-items-center">
+              <span>～</span>
+            </div>
+            <div class="col position-relative">
+              <calendar
+                show-icon icon-display="input"
+                v-model="searchModel.EndDate"
+                date-format="yy/mm/dd"
+                placeholder="yyyy/MM/dd" 
+              ></calendar>
+            </div>
+          </div>
+            </div>
               <div class="col-md-6 col-lg-3 mb-3">
                 <label for="input0" class="form-label">關鍵字</label>
                 <input
@@ -125,6 +150,38 @@
                   class="form-control"
                   v-model="searchModel.KeyWord"
                 />
+              </div>
+              <div class="col-md-6 col-lg-3 mb-3">
+                <label for="input0" class="form-label">下拉選單</label>
+                <dropdown 
+                  v-model="searchModel.selectedCity" 
+                  :options="[1,2,3]" 
+                  optionLabel="name" 
+                  placeholder="請選擇" 
+                  filter 
+                  class="w-full md:w-14rem"></dropdown>
+              </div>
+              <div class="col-md-6 col-lg-3 mb-3">
+                <label for="input0" class="form-label">checkbox</label>
+                <div class="flex align-items-center">
+                    <checkbox v-model="searchModel.check_group" input-id="ingredient1" name="check-group" value="checkbox1"></checkbox>
+                    <label for="ingredient1" class="ml-2"> 複選1 </label>
+                </div>
+                <div class="flex align-items-center">
+                    <checkbox v-model="searchModel.check_group" input-id="ingredient2" name="check-group" value="checkbox2"></checkbox>
+                    <label for="ingredient2" class="ml-2"> 複選2 </label>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-3 mb-3">
+                <label for="input0" class="form-label">radio button</label>
+                <div class="flex align-items-center">
+                    <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient1" name="radio-group" value="radio-button  1"></radio-button>
+                    <label for="radio-ingredient1" class="ml-2"> 單選1 </label>
+                </div>
+                <div class="flex align-items-center">
+                    <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient2" name="radio-group" value="radio-button  2"></radio-button>
+                    <label for="radio-ingredient2" class="ml-2"> 單選2 </label>
+                </div>
               </div>
             </div>
           </template>
@@ -180,6 +237,18 @@
       </div>
     </main>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/primevue/core/core.min.js"></script>
+    <script src="https://unpkg.com/primevue/calendar/calendar.min.js"></script>
+    <script>
+      // console.log(primevue)
+      // console.log(Vue)
+      // Vue.use(primevue.config)
+      // Object.values(primevue).forEach(component => {
+      //   console.log(component.name, component)
+      //   // Vue.component(component.name, component);
+      // });
+
+    </script>
     <script type="module" src="./src/index.js"></script>
   </body>
 </html>
