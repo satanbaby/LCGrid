@@ -1,10 +1,10 @@
 import fakeData from './fakeApiData.js';
 import LcColumn from './LcColumn.js';
-import {
+const {
   ref,
   computed,
   onMounted
-} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+} = Vue
 
 const DEFAULT_SEARCH_MODEL = {
   pageSize: 10,

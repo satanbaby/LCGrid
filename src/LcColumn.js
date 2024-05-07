@@ -1,4 +1,4 @@
-import { ref, computed, toRef } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+const { ref, computed, toRef } = Vue;
 export default {
   props: {
     /** 外部傳入的欄位設定 */

@@ -1,12 +1,12 @@
 import './styles.scss';
 import LcGrid from './LcGrid.js';
 
-import {
+const {
   createApp,
   ref,
   onMounted,
   watch
-} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+} = Vue;
 createApp({
   components: {
     LcGrid,
