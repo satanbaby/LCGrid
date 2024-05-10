@@ -37,6 +37,10 @@ const app = createApp({
       console.log(doc.CaseNo)
       alert('展辦:' + doc.CaseNo)
     }
+
+    const rowClick = ({data})=>{
+      alert('click row: ' + data.CaseNo)
+    }
     return {
       list,
       deleteItems,
@@ -45,6 +49,8 @@ const app = createApp({
       extendDoc,
       
       child,
+
+      rowClick
     };
   },
 });

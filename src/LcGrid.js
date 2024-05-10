@@ -25,10 +25,13 @@ export default {
     initQuery: { type: Boolean, default: () => true },
     rememberQuery: { type: Boolean, default: () => true }
   },
+  emits:[
+    'row-click',
+  ],
   components: {
     LcColumn,
   },
-  setup(props) {
+  setup(props, ctx) {
     const searchData = ref({ ...DEFAULT_SEARCH_MODEL, ...props.defaultSearchModel });
     const dataSource = ref({rows: [], total: 0});
 
@@ -115,6 +118,11 @@ export default {
       query();
     });
 
+    const onRowClick = (item, event)=>{
+      if(event.target.classList.contains('cell'))
+        ctx.emit('row-click', { data: item });
+    }
+
     return {
       dataSource,
       queryUrl: props.queryUrl,
@@ -131,6 +139,8 @@ export default {
       queryAll,
       getSelected,
       totalPage,
+
+      onRowClick
     };
   },
   template: `
@@ -164,7 +174,10 @@ export default {
         </lc-column>
       </div>
       <template v-if="dataSource.total">
-        <div class="row list-body" v-for="item in dataSource.rows">
+        <div class="row list-body" 
+          v-for="item in dataSource.rows" 
+          @click="onRowClick(item, $event)"
+          >
           <slot name="rows" :item></slot>
         </div>
       </template>
