@@ -7,7 +7,7 @@ const {
 } = Vue
 
 const DEFAULT_SEARCH_MODEL = {
-  pageSize: 10,
+  pageSize: 1,
   sortField: 'ID',
   sortAction: 'ASC',
   nowPage: 1,
@@ -169,6 +169,7 @@ export default {
           v-for="item in cols"
           :column=item
           :searchData=searchData
+          :key="item.SN"
           @click="changeSort(item)"
           >
         </lc-column>
@@ -190,7 +191,7 @@ export default {
     <div>
       每頁
       <select class="form-select form-select-sm" v-model.number="searchData.pageSize" @change="changePageSize">
-        <option>10</option>
+        <option>1</option>
         <option>30</option>
         <option>50</option>
       </select>

@@ -20,11 +20,7 @@ const app = createApp({
     });
 
     function deleteItems() {
-      const selectedItem = child.value.getSelected()
-        .map((_) => _.ReceNo)
-      console.log(selectedItem)
-      const messageReceNos = selectedItem.join('、');
-      alert('刪除文號:' + messageReceNos);
+      console.log(list.value.rows.push({}))
     }
 
     function exportList() {
@@ -39,9 +35,32 @@ const app = createApp({
     }
 
     const rowClick = ({data})=>{
-      alert('click row: ' + data.CaseNo)
+    }
+
+    const initChosen = (e, item)=>{
+      console.log('init')
+      const chosen = $(e.el).chosen()
+      console.log(chosen)
+      chosen.val(item.Select)
+      chosen.trigger("chosen:updated")
+      chosen.change((chosenevent, a)=>{
+          item.Select = a.selected
+        })
+    }
+    const updateChosen = (e, item)=>{
+      console.log($(e.el).data('chosen'))
+      //const chosen=$(e.el).chosen()
+      chosen.val(item.Select)
+      chosen.trigger("chosen:updated")
+      console.log(chosen)
+      chosen.change((chosenevent, a)=>{
+        item.Select = a.selected
+      })
+      // console.log()
     }
     return {
+      initChosen,
+      updateChosen,
       list,
       deleteItems,
       exportList,

@@ -8,8 +8,8 @@ for (let i = 0; i < 100; i++)
     ReceDate: '114/04/16',
     FinalDate: '113/04/20',
     User: '周OO',
+    Select: "D"
   });
-
 const allField = Object.getOwnPropertyNames(list[0])
 
 function paginateData({pageSize, nowPage, sortAction, sortField}) {
