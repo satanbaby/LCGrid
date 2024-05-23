@@ -70,7 +70,7 @@ export default {
     };
 
     const queryAll = () => {
-      searchData.value = { ...DEFAULT_SEARCH_MODEL };
+      searchData.value = { ...DEFAULT_SEARCH_MODEL, ...props.defaultSearchModel };
       query();
     };
 
