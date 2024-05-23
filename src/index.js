@@ -13,27 +13,27 @@ const app = createApp({
   },
   setup() {
     const list = ref({});
-    const child = ref(null);
+    const grid = ref(null);
     onMounted(() => {
-      const _dataSource = child.value.dataSource;
+      const _dataSource = grid.value.dataSource;
       list.value = _dataSource;
     });
 
-    function deleteItems() {
-      const selectedItem = child.value.getSelected()
+    const deleteItems = () => {
+      const selectedItem = grid.value.getSelected()
         .map((_) => _.ReceNo)
       console.log(selectedItem)
       const messageReceNos = selectedItem.join('、');
       alert('刪除文號:' + messageReceNos);
     }
 
-    function exportList() {
+    const exportList = () =>{
       alert('匯出');
     }
-    function changeUser() {
+    const changeUser = () =>{
       alert('異動承辦人');
     }
-    function extendDoc(doc){
+    const extendDoc = (doc)=>{
       console.log(doc.CaseNo)
       alert('展辦:' + doc.CaseNo)
     }
@@ -41,14 +41,14 @@ const app = createApp({
     const rowClick = ({data})=>{
       alert('click row: ' + data.CaseNo)
     }
+
     return {
-      list,
       deleteItems,
       exportList,
       changeUser,
       extendDoc,
       
-      child,
+      grid,
 
       rowClick
     };

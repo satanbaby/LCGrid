@@ -147,7 +147,7 @@ export default {
 <div>
   <form class="p-3 bg-white custom-shadow">
     <slot name="search" :searchModel="searchData"></slot>
-    <pre style="font-size: 8px">{{searchData}}</pre>
+    <pre style="font-size: 12px">{{searchData}}</pre>
     <hr class="mt-0" />
     <div class="text-end">
       <button type="button" class="btn btn-color01 px-4 btn-sm" @click="query(true)">
