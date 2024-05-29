@@ -147,7 +147,6 @@ export default {
 <div>
   <form class="p-3 bg-white custom-shadow">
     <slot name="search" :searchModel="searchData"></slot>
-    <pre style="font-size: 12px">{{searchData}}</pre>
     <hr class="mt-0" />
     <div class="text-end">
       <button type="button" class="btn btn-color01 px-4 btn-sm" @click="query(true)">
@@ -159,7 +158,6 @@ export default {
     </div>
   </form>
   <div class="list-area p-3 mt-3 bg-white custom-shadow">
-    {{queryUrl}}
     <div class="row mb-2">
       <slot name="toolbar"></slot>
     </div>
@@ -202,7 +200,6 @@ export default {
       頁｜<a href="javascript:void(0)" class="link-color" @click="nextPage">下一頁</a>
     </div>
   </div>
-  <pre>{{dataSource}}</pre>
 </div>
   `,
 };

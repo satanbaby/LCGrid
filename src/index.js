@@ -14,9 +14,16 @@ const app = createApp({
   setup() {
     const list = ref({});
     const grid = ref(null);
+    const modalData  = ref({})
+    const modalRef = ref(null)
     onMounted(() => {
       const _dataSource = grid.value.dataSource;
       list.value = _dataSource;
+      $(modalRef.value).on("hidden.bs.modal", ()=>{
+        console.log(document.getElementById('addModal'))
+          console.log(modalRef.value)
+          console.log('hide')
+      })
     });
 
     const deleteItems = () => {
@@ -34,13 +41,15 @@ const app = createApp({
       alert('異動承辦人');
     }
     const extendDoc = (doc)=>{
-      console.log(doc.CaseNo)
-      alert('展辦:' + doc.CaseNo)
+      modalData.value = doc
+      var myModal = new bootstrap.Modal(document.getElementById('addModal'))
+      myModal.show()
     }
 
     const rowClick = ({data})=>{
       alert('click row: ' + data.CaseNo)
     }
+
 
     return {
       deleteItems,
@@ -48,6 +57,8 @@ const app = createApp({
       changeUser,
       extendDoc,
       
+      modalRef,
+      modalData,
       grid,
 
       rowClick
