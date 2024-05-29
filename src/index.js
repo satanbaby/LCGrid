@@ -41,7 +41,7 @@ const app = createApp({
       alert('異動承辦人');
     }
     const extendDoc = (doc)=>{
-      modalData.value = doc
+      modalData.value = {...doc}
       var myModal = new bootstrap.Modal(document.getElementById('addModal'))
       myModal.show()
     }
