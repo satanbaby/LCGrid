@@ -190,13 +190,20 @@
           </template>
           <template #toolbar>
             <div class="col-md-6">
+              <button
+                class="btn btn-color01 btn-sm me-1"
+                data-bs-toggle="modal"
+                @click="openModal()"
+              >
+                <i class="fas fa-add me-2" aria-hidden="true"></i
+                >新增
+              </button>
               <button class="btn btn-danger btn-sm me-1" @click="deleteItems">
                 <i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除
               </button>
               <button
                 class="btn btn-color01 btn-sm me-1"
                 data-bs-toggle="modal"
-                data-bs-target="#exportModal"
                 @click="exportList"
               >
                 <i class="fas fa-file-alt me-2" aria-hidden="true"></i
@@ -233,54 +240,46 @@
             <div class="cell" data-title="限辦日期"><span>{{item.FinalDate}}</span></div>
             <div class="cell" data-title="承辦人">{{item.User}}</div>
             <div class="cell text-nowrap" data-title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
-              @click="extendDoc(item)">編輯</button>
+              @click="openModal(item)">編輯</button>
             </div>
           </template>
         </lc-grid>
         <!-- 新增燈箱 -->
-        <div class="modal fade" 
-        ref="modalRef"
-        id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="addModalLabel">案由 - 新增</h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="mb-3">
-                          <label for="input0" class="form-label required">公文文號</label>
-                          <input type="text" class="form-control" v-model="modalData.ReceNo">
-                      </div>
-                      <div class="mb-3">
-                          <label for="input0" class="form-label required">下拉選單</label>
-                          <div>
-                            <dropdown 
-                              append-to="self"
-                              v-model="modalData.selectedCity" 
-                              :options="[1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19]" 
-                              optionLabel="name" 
-                              placeholder="請選擇" 
-                              filter 
-                              class="w-full md:w-14rem"></dropdown>
-                          </div>
-                      </div>
-                      <div class="mb-3">
-                          <label for="Textarea1" class="form-label">備註</label>
-                          <textarea class="form-control" id="Textarea1" rows="3"></textarea>
-                      </div>
-                      <div class="mb-3">
-                          <label for="Textarea1" class="form-label">監控</label>
-                          <pre>{{modalData}}</pre>
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                      <button type="button" class="btn btn-color01">儲存</button>
-                  </div>
+        <lc-modal
+          ref="modalRef"
+          @hidden="onModalHidden"
+        >
+          <template #header>
+            <h1 class="modal-title fs-5">案由 - 新增</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </template>
+          <template #body>
+            <div class="mb-3">
+              <label for="input0" class="form-label required">公文文號</label>
+              <input type="text" class="form-control" v-model="modalData.ReceNo">
+            </div>
+            <div class="mb-3">
+              <label for="input0" class="form-label required">下拉選單</label>
+              <div>
+                <dropdown append-to="self" v-model="modalData.selectedCity"
+                  :options="[1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19]" optionLabel="name" placeholder="請選擇"
+                  filter class="w-full md:w-14rem"></dropdown>
               </div>
-          </div>
-      </div>
+            </div>
+            <div class="mb-3">
+              <label for="Textarea1" class="form-label">備註</label>
+              <textarea class="form-control" rows="3" v-model="modalData.Content"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="Textarea1" class="form-label">監控</label>
+              <pre>{{modalData}}</pre>
+            </div>
+          </template>
+          <template #footer>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-color01">儲存</button>
+          </template>
+        </lc-modal>
       </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>

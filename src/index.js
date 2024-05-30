@@ -1,5 +1,6 @@
 import './styles.scss';
 import LcGrid from './components/LcGrid/LcGrid.js';
+import LcModal from './components/LcModal/LcModal.js';
 
 const {
   createApp,
@@ -7,9 +8,11 @@ const {
   onMounted,
   watch
 } = Vue;
+
 const app = createApp({
   components: {
     LcGrid,
+    LcModal
   },
   setup() {
     const list = ref({});
@@ -19,11 +22,6 @@ const app = createApp({
     onMounted(() => {
       const _dataSource = grid.value.dataSource;
       list.value = _dataSource;
-      $(modalRef.value).on("hidden.bs.modal", ()=>{
-        console.log(document.getElementById('addModal'))
-          console.log(modalRef.value)
-          console.log('hide')
-      })
     });
 
     const deleteItems = () => {
@@ -40,22 +38,25 @@ const app = createApp({
     const changeUser = () =>{
       alert('異動承辦人');
     }
-    const extendDoc = (doc)=>{
+    const openModal = (doc)=>{
       modalData.value = {...doc}
-      var myModal = new bootstrap.Modal(document.getElementById('addModal'))
-      myModal.show()
+      modalRef.value.show()
     }
 
     const rowClick = ({data})=>{
       alert('click row: ' + data.CaseNo)
     }
 
-
+    const onModalHidden = ()=>{
+      console.log('onModalHidden')
+      modalData.value = {}
+    }
     return {
       deleteItems,
       exportList,
       changeUser,
-      extendDoc,
+      openModal,
+      onModalHidden,
       
       modalRef,
       modalData,
