@@ -157,7 +157,7 @@
                 <div>
                   <lc-dropdown
                     v-model="searchModel.selectedCity" 
-                    query-url="url: /hello/world"
+                    query-url="url: /hello/selectedCity"
                     placeholder="請選擇2"
                     editable
                     ></lc-dropdown>
@@ -169,7 +169,38 @@
                   <lc-dropdown
                     v-model="searchModel.selectedCity2" 
                     :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
-                    placeholder="請選擇2"
+                    ></lc-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                <label for="input0" class="form-label">下拉選單(連動1)</label>
+                <div>
+                  <lc-dropdown
+                    v-model="searchModel.selectedCity3" 
+                    :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
+                    @change="console.log(child2);
+                    searchModel.selectedCity4=null;
+                    child2.clear();
+                    child2.query(searchModel.selectedCity3)"
+                    ></lc-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                <label for="input0" class="form-label">下拉選單(連動2)</label>
+                <div>
+                  <!-- <lc-dropdown
+                    ref="child2"
+                    v-model="searchModel.selectedCity4" 
+                    query-url="api url"
+                    :init-query="false"
+                    :cascade-from="searchModel.selectedCity3"
+                    ></lc-dropdown> -->
+
+                  <lc-dropdown
+                    ref="child2"
+                    v-model="searchModel.selectedCity4" 
+                    query-url="api url"
+                    :cascade-from="searchModel.selectedCity3"
                     ></lc-dropdown>
                 </div>
               </div>
@@ -196,6 +227,7 @@
                 </div>
               </div>
             </div>
+            {{searchModel}}
           </template>
           <template #toolbar>
             <div class="col-md-6">

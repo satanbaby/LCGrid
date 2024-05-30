@@ -1,6 +1,7 @@
 const {
   ref,
   onMounted,
+  onUpdated,
   onBeforeUnmount
 } = Vue
 export default {
@@ -8,29 +9,58 @@ export default {
     dropdown: primevue.dropdown
   },
   props:{
-    queryUrl: String
+    queryUrl: String,
+    initQuery: { type: Boolean, default: () => true },
+    cascadeFrom: Object
   },
   setup(props) {
+    const loading = ref(true)
     const dataSource = ref([])
     onMounted(()=>{
-      console.log(props.queryUrl)
-      if(props.queryUrl){
-        // get data from ajax
-        const source = []
-        setTimeout(() => {
-          for (let i = 0; i < 10; i++) {
-            source.push({Text: `選項 ${i}`, Value: i})
-          }
-          dataSource.value = source
-        }, 1000);
+      loading.value = false
+    })
+    onUpdated(() => {
+      console.log('onUpdate', props.cascadeFrom)
+      // console.log('onMounted', props.cascadeFrom)
+      if(dataSource.value.length !== 0)
+        return
+
+      if(props.cascadeFrom){
+        GetDataFromUrl()
       }
     })
-    // onBeforeUnmount(()=>{
-    //   console.log('onBeforeUnmount')
-    // })
+    
+    const GetDataFromUrl = ()=>{
+      if(!props.queryUrl){
+        return
+      }
+      console.log('query')
+      // get data from ajax
+      loading.value = true
+      const source = []
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          source.push({Text: `選項 ${i}`, Value: i})
+        }
+        dataSource.value = source
+        loading.value = false
+      }, 1000);
+    }
+    const query = (param)=>{
+      if(!param)
+        return
+      GetDataFromUrl()
+    }
+    const clear = ()=>{
+      dataSource.value = []
+    }
       return {
         queryUrl: props.queryUrl,
-        dataSource
+        dataSource,
+
+        query,
+        clear,
+        loading
       }
   },
   template: `
@@ -42,6 +72,7 @@ export default {
     option-value="Value"
     filter
     show-clear
+    :loading="loading"
     >
     </dropdown>
   `,
