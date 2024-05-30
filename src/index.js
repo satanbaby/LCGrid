@@ -53,14 +53,12 @@ const app = createApp({
       console.log('onModalHidden')
       modalData.value = {}
     }
-    const child2 = ref()
     return {
       deleteItems,
       exportList,
       changeUser,
       openModal,
       onModalHidden,
-      child2,
       
       modalRef,
       modalData,
