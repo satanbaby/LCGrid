@@ -1,4 +1,4 @@
-import fakeData from './fakeApiData.js';
+import fakeData from '../../fakeApiData.js';
 import LcColumn from './LcColumn.js';
 const {
   ref,

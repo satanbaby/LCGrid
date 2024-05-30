@@ -1,5 +1,5 @@
 import './styles.scss';
-import LcGrid from './LcGrid.js';
+import LcGrid from './components/LcGrid/LcGrid.js';
 
 const {
   createApp,
