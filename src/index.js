@@ -1,6 +1,7 @@
 import './styles.scss';
 import LcGrid from './components/LcGrid/LcGrid.js';
 import LcModal from './components/LcModal/LcModal.js';
+import LcDropdown from './components/LcDropdown/LcDropdown.js';
 
 const {
   createApp,
@@ -12,7 +13,8 @@ const {
 const app = createApp({
   components: {
     LcGrid,
-    LcModal
+    LcModal,
+    LcDropdown
   },
   setup() {
     const list = ref({});
@@ -68,7 +70,6 @@ const app = createApp({
 });
 app.use(primevue.config.default)
 app.component('calendar', primevue.calendar);
-app.component('dropdown', primevue.dropdown);
 app.component('checkbox', primevue.checkbox);
 app.component('radioButton', primevue.radiobutton);
 app.mount('#app')

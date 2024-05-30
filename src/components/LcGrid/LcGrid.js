@@ -31,7 +31,7 @@ export default {
   components: {
     LcColumn,
   },
-  setup(props, ctx) {
+  setup(props, {emit}) {
     const searchData = ref({ ...DEFAULT_SEARCH_MODEL, ...props.defaultSearchModel });
     const dataSource = ref({rows: [], total: 0});
 
@@ -120,7 +120,7 @@ export default {
 
     const onRowClick = (item, event)=>{
       if(event.target.classList.contains('cell'))
-        ctx.emit('row-click', { data: item });
+        emit('row-click', { data: item });
     }
 
     return {
