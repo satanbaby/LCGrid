@@ -152,17 +152,19 @@
                   v-model="searchModel.KeyWord"
                 />
               </div>
-              <div class="col-md-6 col-lg-3 mb-3">
+              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
                 <label for="input0" class="form-label">下拉選單</label>
-                <dropdown 
-                  v-model="searchModel.selectedCity" 
-                  :options="[1,2,3]" 
-                  optionLabel="name" 
-                  placeholder="請選擇" 
-                  filter 
-                  class="w-full md:w-14rem"></dropdown>
+                <div>
+                  <dropdown 
+                    v-model="searchModel.selectedCity" 
+                    :options="[1,2,3]" 
+                    optionLabel="name" 
+                    placeholder="請選擇" 
+                    filter 
+                    class="w-full md:w-14rem"></dropdown>
+                </div>
               </div>
-              <div class="col-md-6 col-lg-3 mb-3">
+              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
                 <label for="input0" class="form-label">checkbox</label>
                 <div class="flex align-items-center">
                     <checkbox v-model="searchModel.check_group" input-id="ingredient1" name="check-group" value="checkbox1"></checkbox>
@@ -173,7 +175,7 @@
                     <label for="ingredient2" class="ml-2"> 複選2 </label>
                 </div>
               </div>
-              <div class="col-md-6 col-lg-3 mb-3">
+              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
                 <label for="input0" class="form-label">radio button</label>
                 <div class="flex align-items-center">
                     <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient1" name="radio-group" value="radio-button  1"></radio-button>
