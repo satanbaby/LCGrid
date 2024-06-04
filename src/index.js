@@ -21,10 +21,29 @@ const app = createApp({
     const grid = ref(null);
     const modalData  = ref({})
     const modalRef = ref(null)
+    const dropdown2 = ref(null)
+    const searchData = ref(null)
     onMounted(() => {
       const _dataSource = grid.value.dataSource;
       list.value = _dataSource;
+      // console.log('searchData',  grid.value.searchData)
+      searchData.value = grid.value.searchData
+      // console.log(searchData.value)
+      onChange(true, searchData.value, dropdown2.value)
     });
+    const onChange = (isInit, model, childDropdown)=>{
+      if(!isInit)
+        model.selectedCity4 = null
+      
+      const newValue = model.selectedCity3
+      if(!newValue){
+        childDropdown.clear()
+        return
+      }
+
+      childDropdown.setQueryUrl('api url ' + newValue)
+      childDropdown.query()
+    }
 
     const deleteItems = () => {
       const selectedItem = grid.value.getSelected()
@@ -59,12 +78,14 @@ const app = createApp({
       changeUser,
       openModal,
       onModalHidden,
+      onChange,
       
       modalRef,
       modalData,
       grid,
 
-      rowClick
+      rowClick,
+      dropdown2
     };
   },
 });

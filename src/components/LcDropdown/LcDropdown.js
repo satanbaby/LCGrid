@@ -1,7 +1,7 @@
 const {
   ref,
   onMounted,
-  onUpdated,
+  toRef,
   onBeforeUnmount,
   watch
 } = Vue
@@ -17,30 +17,19 @@ export default {
   setup(props) {
     const loading = ref(true)
     const dataSource = ref([])
+    const queryUrl = ref(null)
     onMounted(()=>{
       loading.value = false
+      if(props.queryUrl){
+        queryUrl.value = props.queryUrl
+      }
       if(props.initQuery)
         GetDataFromUrl()
     })
 
-    watch(() => props.cascadeFrom, (newValue) => {
-      console.log('watch:', newValue);  // 每當 myProp 發生變化時執行
-      if(!newValue){
-        clear()
-        return
-      }
-
-      GetDataFromUrl()
-      if(dataSource.value.length !== 0)
-        return
-  
-      if(props.cascadeFrom){
-        GetDataFromUrl()
-      }
-    });
-    
     const GetDataFromUrl = ()=>{
-      if(!props.queryUrl){
+      console.log('GetDataFromUrl', queryUrl.value)
+      if(!queryUrl){
         return
       }
       // get data from ajax
@@ -54,18 +43,21 @@ export default {
         loading.value = false
       }, 1000);
     }
-    const query = (param)=>{
-      if(!param)
-        return
+    const query = ()=>{
       GetDataFromUrl()
     }
     const clear = ()=>{
       dataSource.value = []
     }
+    const setQueryUrl = (url)=>{
+      console.log('setQueryUrl', url, queryUrl)
+      queryUrl.value = url
+    }
       return {
-        queryUrl: props.queryUrl,
+        queryUrl,
         dataSource,
 
+        setQueryUrl,
         query,
         clear,
         loading
