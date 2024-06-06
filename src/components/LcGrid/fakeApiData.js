@@ -34,9 +34,9 @@ function paginateData({pageSize, nowPage, sortAction, sortField}) {
   const endIndex = startIndex + pageSize;
   
   // 返回指定頁碼的分頁結果
-  const result = sortedData.slice(startIndex, endIndex)
+  const result = sortedData.slice(startIndex, endIndex);
   return {
-    rows: result,
+    rows: JSON.parse(JSON.stringify(result)),
     total: sortedData.length
   };
 }

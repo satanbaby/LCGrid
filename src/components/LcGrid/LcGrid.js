@@ -66,7 +66,7 @@ export default {
       }
 
       // AJAX call to replace fakeData
-      dataSource.value = { ...fakeData.paginateData(searchData.value) };
+      dataSource.value = fakeData.paginateData(searchData.value);
     };
 
     const queryAll = () => {
