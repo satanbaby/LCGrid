@@ -119,7 +119,6 @@
           >
           <template #search="{searchModel}">
             <div class="row">
-              
               <div class="col-md-4 mb-3">
                 <label for="input0" class="form-label">收文日期</label>
                 <div class="row g-2">
@@ -214,8 +213,8 @@
                     <label for="radio-ingredient2" class="ml-2"> 單選2 </label>
                 </div>
               </div>
+              {{searchModel}}
             </div>
-            {{searchModel}}
           </template>
           <template #toolbar>
             <div class="col-md-6">
@@ -255,7 +254,12 @@
               </div>
             </div>
           </template>
-          <template #rows="{item}">
+          <template #rows="{item, searchData}">
+            <lc-column 
+              :header="'案號'"
+              :sort="searchData.sortField"
+              >
+            </lc-column>
             <div class="cell" data-title="選取">
               <div class="d-inline">
                 <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" v-model="item.selected">

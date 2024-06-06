@@ -162,7 +162,7 @@ export default {
       <slot name="toolbar"></slot>
     </div>
     <div class="table m-0">
-      <div class="row list-header bg-gray-light text-nowrap">
+      <!--<div class="row list-header bg-gray-light text-nowrap">
         <lc-column 
           v-for="item in cols"
           :column=item
@@ -170,13 +170,18 @@ export default {
           @click="changeSort(item)"
           >
         </lc-column>
-      </div>
+      </div>-->
       <template v-if="dataSource.total">
+        <div class="row list-header bg-gray-light text-nowrap">
+          <div class="cell user-select-none">
+            <i class="sortIcon px-1 fa"></i>1
+          </div>
+        </div>
         <div class="row list-body" 
           v-for="item in dataSource.rows" 
           @click="onRowClick(item, $event)"
           >
-          <slot name="rows" :item></slot>
+          <slot name="rows" :item :searchData></slot>
         </div>
       </template>
     </div>

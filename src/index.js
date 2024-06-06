@@ -1,5 +1,6 @@
 import './styles.scss';
 import LcGrid from './components/LcGrid/LcGrid.js';
+import LcColumn from './components/LcGrid/LcColumn2.js';
 import LcModal from './components/LcModal/LcModal.js';
 import LcDropdown from './components/LcDropdown/LcDropdown.js';
 
@@ -13,6 +14,7 @@ const {
 const app = createApp({
   components: {
     LcGrid,
+    LcColumn,
     LcModal,
     LcDropdown
   },
