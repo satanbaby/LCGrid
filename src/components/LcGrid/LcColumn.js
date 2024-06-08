@@ -1,4 +1,4 @@
-const { ref, computed, toRef } = Vue;
+const { ref, computed, toRefs } = Vue;
 export default {
   props: {
     /** 外部傳入的欄位設定 */
@@ -15,14 +15,14 @@ export default {
     const columnName = ref('')
     const sortName = ref('')
     const sortType = ref('')
-    const search = toRef(props, 'searchData')
+    const {searchData: search, column} = toRefs(props)
     
-    if (typeof props.column === 'string') {
-      columnName.value = props.column
-    } else if (typeof props.column === 'object') {
-      columnName.value = props.column.columnName
-      sortName.value = props.column.sortName
-      sortType.value = props.column.sortType ?? ''
+    if (typeof column.value === 'string') {
+      columnName.value = column.value
+    } else if (typeof column.value === 'object') {
+      columnName.value = column.value.columnName
+      sortName.value = column.value.sortName
+      sortType.value = column.value.sortType ?? ''
     }
 
     const getActionStyle = computed(()=>{

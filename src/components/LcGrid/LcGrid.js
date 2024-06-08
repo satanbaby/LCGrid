@@ -3,7 +3,8 @@ import LcColumn from './LcColumn.js';
 const {
   ref,
   computed,
-  onMounted
+  onMounted,
+  toRefs
 } = Vue
 
 const DEFAULT_SEARCH_MODEL = {
@@ -32,7 +33,9 @@ export default {
     LcColumn,
   },
   setup(props, {emit}) {
-    const searchData = ref({ ...DEFAULT_SEARCH_MODEL, ...props.defaultSearchModel });
+    const {defaultSearchModel, rememberQuery, guid, queryUrl, cols} = toRefs(props)
+    
+    const searchData = ref({ ...DEFAULT_SEARCH_MODEL, ...defaultSearchModel.value });
     const dataSource = ref({rows: [], total: 0});
 
     const nextPage = () => {
@@ -61,7 +64,7 @@ export default {
         searchData.value.nowPage = 1;
       }
 
-      if (props.rememberQuery) {
+      if (rememberQuery) {
         setSessionStorage(searchData.value);
       }
 
@@ -70,7 +73,7 @@ export default {
     };
 
     const queryAll = () => {
-      searchData.value = { ...DEFAULT_SEARCH_MODEL, ...props.defaultSearchModel };
+      searchData.value = { ...DEFAULT_SEARCH_MODEL, ...defaultSearchModel.value };
       query();
     };
 
@@ -98,13 +101,11 @@ export default {
     };
 
     const setSessionStorage = () => {
-      const guid = props.guid;
-      sessionStorage[guid] = JSON.stringify(searchData.value);
+      sessionStorage[guid.value] = JSON.stringify(searchData.value);
     };
 
     const getSessionStorage = () => {
-      const guid = props.guid;
-      const storedObj = sessionStorage[guid];
+      const storedObj = sessionStorage[guid.value];
       return JSON.parse(storedObj ?? null);
     };
 
@@ -125,9 +126,9 @@ export default {
 
     return {
       dataSource,
-      queryUrl: props.queryUrl,
+      queryUrl,
       searchData,
-      cols: ref(props.cols),
+      cols,
 
       nextPage,
       previousPage,
