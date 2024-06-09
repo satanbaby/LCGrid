@@ -135,12 +135,6 @@ export default {
         }
     });
 
-    const selectAll = ()=>{
-      dataSource.value.rows.forEach((item)=>{
-        item.selected = true
-      })
-    }
-
     return {
       dataSource,
       queryUrl,
@@ -154,7 +148,6 @@ export default {
       jumpToPage,
       changePageSize,
       changeSort,
-      selectAll,
 
       query,
       queryAll,
@@ -185,8 +178,7 @@ export default {
     <div class="table m-0">
       <div class="row list-header bg-gray-light text-nowrap">
         <div class="cell" data-title="選取" 
-          v-if="selectable"
-          @click="selectAll">
+          v-if="selectable">
           <div class="d-inline">
             <input class="form-check-input" type="checkbox"
               v-model="isSelectedAll">
