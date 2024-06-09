@@ -1,3 +1,4 @@
+import { watch } from 'vue';
 import fakeData from './fakeApiData.js';
 import LcColumn from './LcColumn.js';
 const {
@@ -24,7 +25,8 @@ export default {
     },
     guid: String,
     initQuery: { type: Boolean, default: () => true },
-    rememberQuery: { type: Boolean, default: () => true }
+    rememberQuery: { type: Boolean, default: () => true },
+    selectable: Boolean
   },
   emits:[
     'row-click',
@@ -33,7 +35,7 @@ export default {
     LcColumn,
   },
   setup(props, {emit}) {
-    const {defaultSearchModel, rememberQuery, guid, queryUrl, cols} = toRefs(props)
+    const {defaultSearchModel, rememberQuery, guid, queryUrl, cols, selectable} = toRefs(props)
     
     const searchData = ref({ ...DEFAULT_SEARCH_MODEL, ...defaultSearchModel.value });
     const dataSource = ref({rows: [], total: 0});
@@ -124,17 +126,35 @@ export default {
         emit('row-click', { data: item });
     }
 
+    const isSelectedAll = computed({
+        get() {
+            return dataSource.value.rows.every(item => item.selected);
+        },
+        set(value) {
+          dataSource.value.rows.forEach(item => item.selected = value);
+        }
+    });
+
+    const selectAll = ()=>{
+      dataSource.value.rows.forEach((item)=>{
+        item.selected = true
+      })
+    }
+
     return {
       dataSource,
       queryUrl,
       searchData,
       cols,
+      selectable,
+      isSelectedAll,
 
       nextPage,
       previousPage,
       jumpToPage,
       changePageSize,
       changeSort,
+      selectAll,
 
       query,
       queryAll,
@@ -164,6 +184,14 @@ export default {
     </div>
     <div class="table m-0">
       <div class="row list-header bg-gray-light text-nowrap">
+        <div class="cell" data-title="選取" 
+          v-if="selectable"
+          @click="selectAll">
+          <div class="d-inline">
+            <input class="form-check-input" type="checkbox"
+              v-model="isSelectedAll">
+          </div>
+        </div>
         <lc-column 
           v-for="item in cols"
           :column=item
@@ -176,7 +204,14 @@ export default {
         <div class="row list-body" 
           v-for="item in dataSource.rows" 
           @click="onRowClick(item, $event)"
-          >
+        >
+          <div class="cell" data-title="選取" v-if="selectable">
+            <div class="d-inline">
+              <input class="form-check-input" 
+                type="checkbox" 
+                v-model="item.selected">
+            </div>
+          </div>
           <slot name="rows" :item></slot>
         </div>
       </template>

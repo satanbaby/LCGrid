@@ -100,9 +100,9 @@
           ref="grid"
           guid="BFE88743-8568-46A4-BA7D-0BF3332B3245"
           query-url="url: /hello/world"
+          :selectable="true"
           :default-search-model="{sortField: 'ReceNo', sortAction: 'DESC'}"
           :cols="[
-            '',
             '序號',
             {columnName: '公文文號', sortName: 'ReceNo'},
             {columnName: '案號', sortName: 'CaseNo'},
@@ -253,11 +253,6 @@
             </div>
           </template>
           <template #rows="{item}">
-            <div class="cell" data-title="選取">
-              <div class="d-inline">
-                <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="" v-model="item.selected">
-              </div>
-            </div>
             <div class="cell" :class="{'text-danger': item.selected}" data-title="序號">{{item.SN}}</a></div>
             <div class="cell" data-title="公文文號"><a href="petition-data-detail.html" class="link-color px-0">{{item.ReceNo}}</a></div>
             <div class="cell" data-title="案號">{{item.CaseNo}}</div>
