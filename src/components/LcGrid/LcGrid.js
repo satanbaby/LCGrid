@@ -26,7 +26,9 @@ export default {
     guid: String,
     initQuery: { type: Boolean, default: () => true },
     rememberQuery: { type: Boolean, default: () => true },
-    selectable: Boolean
+    selectable: Boolean,
+    crossPageSelect: Boolean,
+    selectKey: String,
   },
   emits:[
     'row-click',
@@ -35,10 +37,12 @@ export default {
     LcColumn,
   },
   setup(props, {emit}) {
-    const {defaultSearchModel, rememberQuery, guid, queryUrl, cols, selectable} = toRefs(props)
+    const {defaultSearchModel, rememberQuery, guid, queryUrl, cols, 
+      selectable, crossPageSelect, selectKey} = toRefs(props)
     
     const searchData = ref({ ...DEFAULT_SEARCH_MODEL, ...defaultSearchModel.value });
     const dataSource = ref({rows: [], total: 0});
+    const selectedItems = ref(new Map())
 
     const nextPage = () => {
       if (searchData.value.nowPage >= getTotalPage()) return;
@@ -72,6 +76,10 @@ export default {
 
       // AJAX call to replace fakeData
       dataSource.value = fakeData.paginateData(searchData.value);
+      dataSource.value.rows.forEach(item=>{
+        if(selectedItems.value.has(item[selectKey.value]))
+          item.selected = true
+      })
     };
 
     const queryAll = () => {
@@ -126,14 +134,42 @@ export default {
         emit('row-click', { data: item });
     }
 
+
     const isSelectedAll = computed({
         get() {
             return dataSource.value.rows.every(item => item.selected);
         },
         set(value) {
-          dataSource.value.rows.forEach(item => item.selected = value);
+          dataSource.value.rows.forEach(item => {
+            item.selected = value
+            toggleSelect(item, value)
+          });
         }
     });
+
+    // crossPageSelect, key
+    const toggleSelect = (item, select) => {
+      // 沒開啟就不要記儲存紀錄
+      if(!crossPageSelect.value)
+        return
+      if(!selectKey.value)
+        throw new Error(`The 'crossPageSelect' prop requires 'selectKey' to be set. Ensure 'selectKey' has a valid value.`)
+
+      const id = item[selectKey.value]
+      const hasData = selectedItems.value.has(id);
+      
+      if(select){
+        if(!hasData){
+          //如果找不到就新增
+          selectedItems.value.set(id, item)
+        }
+      }else{
+        //如果找得到就移除
+        if(hasData){
+          selectedItems.value.delete(id)
+        }
+      }
+    }
 
     return {
       dataSource,
@@ -142,12 +178,14 @@ export default {
       cols,
       selectable,
       isSelectedAll,
+      selectedItems,
 
       nextPage,
       previousPage,
       jumpToPage,
       changePageSize,
       changeSort,
+      toggleSelect,
 
       query,
       queryAll,
@@ -173,7 +211,7 @@ export default {
   </form>
   <div class="list-area p-3 mt-3 bg-white custom-shadow">
     <div class="row mb-2">
-      <slot name="toolbar"></slot>
+      <slot name="toolbar" :selectedItems></slot>
     </div>
     <div class="table m-0">
       <div class="row list-header bg-gray-light text-nowrap">
@@ -181,7 +219,8 @@ export default {
           v-if="selectable">
           <div class="d-inline">
             <input class="form-check-input" type="checkbox"
-              v-model="isSelectedAll">
+              v-model="isSelectedAll"
+              >
           </div>
         </div>
         <lc-column 
@@ -201,7 +240,8 @@ export default {
             <div class="d-inline">
               <input class="form-check-input" 
                 type="checkbox" 
-                v-model="item.selected">
+                v-model="item.selected"
+                @click="toggleSelect(item, $event.target.checked)">
             </div>
           </div>
           <slot name="rows" :item></slot>

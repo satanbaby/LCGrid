@@ -101,6 +101,8 @@
           guid="BFE88743-8568-46A4-BA7D-0BF3332B3245"
           query-url="url: /hello/world"
           :selectable="true"
+          :cross-page-select="true"
+          :select-key="'ReceNo'"
           :default-search-model="{sortField: 'ReceNo', sortAction: 'DESC'}"
           :cols="[
             '序號',
@@ -214,7 +216,7 @@
             </div>
             {{searchModel}}
           </template>
-          <template #toolbar>
+          <template #toolbar="{selectedItems}">
             <div class="col-md-6">
               <button
                 class="btn btn-color01 btn-sm me-1"
@@ -251,6 +253,9 @@
                 <i class="fas fa-circle me-1"></i>逾期案件
               </div>
             </div>
+            {{[...selectedItems.values()].reduce((a, b)=> a+b.SN, 0)}}
+            <br>
+            {{[...selectedItems.values()].map(_=>_.CaseNo)}}
           </template>
           <template #rows="{item}">
             <div class="cell" :class="{'text-danger': item.selected}" data-title="序號">{{item.SN}}</a></div>
