@@ -17,17 +17,26 @@ const DEFAULT_SEARCH_MODEL = {
 
 export default {
   props: {
+    /** 查詢網址 */
     queryUrl: String,
+    /** 表頭欄 */
     cols: Array,
+    /** 預設查詢條件 */
     defaultSearchModel: {
-      type: Object,
-      default: () => ({})
+        type: Object,
+        default: () => ({})
     },
+    /** 儲存查詢條件用GUID */
     guid: String,
+    /** 是否在載入時執行查詢 */
     initQuery: { type: Boolean, default: () => true },
+    /** 是否記錄查詢條件 */
     rememberQuery: { type: Boolean, default: () => true },
+    /** 開啟checkbox */
     selectable: Boolean,
+    /** 是否開啟跨頁選取 */
     crossPageSelect: Boolean,
+    /** 跨頁選取Key */
     selectKey: String,
   },
   emits:[
