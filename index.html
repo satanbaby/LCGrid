@@ -104,16 +104,6 @@
           :cross-page-select="true"
           :select-key="'ReceNo'"
           :default-search-model="{sortField: 'ReceNo', sortAction: 'DESC'}"
-          :cols="[
-            '序號',
-            {columnName: '公文文號', sortName: 'ReceNo'},
-            {columnName: '案號', sortName: 'CaseNo'},
-            '來文日期',
-            '收文日期',
-            '限辦日期',
-            '承辦人',
-            '狀態',
-          ]"
           @row-click="rowClick($event)"
           >
           <template #search="{searchModel}">
@@ -258,16 +248,15 @@
             {{[...selectedItems.values()].map(_=>_.CaseNo)}}
           </template>
           <template #rows="{item}">
-            <div class="cell" :class="{'text-danger': item.selected}" data-title="序號">{{item.SN}}</a></div>
-            <div class="cell" data-title="公文文號"><a href="petition-data-detail.html" class="link-color px-0">{{item.ReceNo}}</a></div>
-            <div class="cell" data-title="案號">{{item.CaseNo}}</div>
-            <div class="cell" data-title="來文日期">{{item.ComeDate}}</div>
-            <div class="cell" data-title="收文日期">{{item.ReceDate}}</div>
-            <div class="cell" data-title="限辦日期"><span>{{item.FinalDate}}</span></div>
-            <div class="cell" data-title="承辦人">{{item.User}}</div>
-            <div class="cell text-nowrap" data-title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
+            <lc-column title="公文文號" sort="ReceNo">{{item.ReceNo}}</lc-column>
+            <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
+            <lc-column title="來文日期">{{item.ComeDate}}</lc-column>
+            <lc-column title="收文日期">{{item.ReceDate}}</lc-column>
+            <lc-column title="限辦日期"><span>{{item.FinalDate}}</span></lc-column>
+            <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
+            <lc-column title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
               @click="openModal(item)">編輯</button>
-            </div>
+            </lc-column>
           </template>
         </lc-grid>
         <!-- 新增燈箱 -->

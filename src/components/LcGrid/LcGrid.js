@@ -45,7 +45,7 @@ export default {
   components: {
     LcColumn,
   },
-  setup(props, {emit}) {
+  setup(props, {emit, slots}) {
     const {defaultSearchModel, rememberQuery, guid, queryUrl, cols, 
       selectable, crossPageSelect, selectKey} = toRefs(props)
     
@@ -73,8 +73,8 @@ export default {
       searchData.value.nowPage = 1;
       query();
     };
-
     const query = (fromDom = false) => {
+      
       if (fromDom) {
         searchData.value.nowPage = 1;
       }
@@ -128,7 +128,12 @@ export default {
       return JSON.parse(storedObj ?? null);
     };
 
+    const columns = ref([])
     onMounted(() => {
+      columns.value = slots.rows({})
+        .filter((child) => child.type.name === "lcColumn2")
+        .map(_=> _.props)
+        .map(_=> { return {columnName: _.title, sortName: _.sort}})
       if (props.rememberQuery) {
         const previousSearchModel = getSessionStorage();
         if (previousSearchModel) {
@@ -181,6 +186,7 @@ export default {
     }
 
     return {
+      columns,
       dataSource,
       queryUrl,
       searchData,
@@ -233,7 +239,7 @@ export default {
           </div>
         </div>
         <lc-column 
-          v-for="item in cols"
+          v-for="item in columns"
           :column=item
           :searchData=searchData
           @click="changeSort(item)"
