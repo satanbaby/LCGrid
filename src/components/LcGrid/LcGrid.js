@@ -5,7 +5,8 @@ const {
   ref,
   computed,
   onMounted,
-  toRefs
+  toRefs,
+  watchEffect
 } = Vue
 
 const DEFAULT_SEARCH_MODEL = {
@@ -130,10 +131,13 @@ export default {
 
     const columns = ref([])
     onMounted(() => {
-      columns.value = slots.rows({})
+      watchEffect(() => {
+        columns.value = slots.rows({})
         .filter((child) => child.type.name === "lcColumn2")
         .map(_=> _.props)
         .map(_=> { return {columnName: _.title, sortName: _.sort}})
+      });
+    
       if (props.rememberQuery) {
         const previousSearchModel = getSessionStorage();
         if (previousSearchModel) {
@@ -241,6 +245,7 @@ export default {
         <lc-column 
           v-for="item in columns"
           :column=item
+          :key=item.columnName
           :searchData=searchData
           @click="changeSort(item)"
           >
