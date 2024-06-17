@@ -1,5 +1,6 @@
 import './styles.scss';
 import LcGrid from './components/LcGrid/LcGrid.js';
+import LcColumn from './components/LcGrid/LcColumn2.js';
 import LcModal from './components/LcModal/LcModal.js';
 import LcDropdown from './components/LcDropdown/LcDropdown.js';
 
@@ -14,7 +15,8 @@ const app = createApp({
   components: {
     LcGrid,
     LcModal,
-    LcDropdown
+    LcDropdown,
+    LcColumn
   },
   setup() {
     const list = ref({});
@@ -72,6 +74,7 @@ const app = createApp({
       console.log('onModalHidden')
       modalData.value = {}
     }
+    const dynamicColumn = ref(['ReceNo', 'CaseNo', 'Editable'])
     return {
       deleteItems,
       exportList,
@@ -83,6 +86,7 @@ const app = createApp({
       modalRef,
       modalData,
       grid,
+      dynamicColumn,
 
       rowClick,
       dropdown2
