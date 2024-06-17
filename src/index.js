@@ -74,6 +74,7 @@ const app = createApp({
       console.log('onModalHidden')
       modalData.value = {}
     }
+    const dynamicColumn = ref(['ReceNo', 'CaseNo', 'Editable'])
     return {
       deleteItems,
       exportList,
@@ -85,6 +86,7 @@ const app = createApp({
       modalRef,
       modalData,
       grid,
+      dynamicColumn,
 
       rowClick,
       dropdown2

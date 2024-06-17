@@ -96,167 +96,258 @@
         </div>
         <!-- <l-c-grid :query-url="/hello/world"> -->
         <!-- query-url="/hello/world" -->
-        <lc-grid 
-          ref="grid"
-          guid="BFE88743-8568-46A4-BA7D-0BF3332B3245"
-          query-url="url: /hello/world"
-          :selectable="true"
-          :cross-page-select="true"
-          :select-key="'ReceNo'"
-          :default-search-model="{sortField: 'ReceNo', sortAction: 'DESC'}"
-          @row-click="rowClick($event)"
-          >
-          <template #search="{searchModel}">
-            <div class="row">
-              
-              <div class="col-md-4 mb-3">
-                <label for="input0" class="form-label">收文日期</label>
-                <div class="row g-2">
-					<div class="col position-relative">
-						<calendar
-              show-icon icon-display="input"
-              v-model="searchModel.StartDate"
-              date-format="yy/mm/dd"
-              placeholder="yyyy/MM/dd" 
-            ></calendar>
-					</div>
-          <div class="col-1 d-flex align-items-center">
-              <span>～</span>
+        <nav>
+            <div class="nav nav-tabs custom-nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-plan01" type="button" role="tab" aria-controls="nav-home" aria-selected="true"><h6 class="mb-0">基礎使用</h6></button>
+                <button class="nav-link ms-2" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-plan02" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><h6 class="mb-0">跨頁選取</h6></button>
+                <button class="nav-link ms-2" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-plan03" type="button" role="tab" aria-controls="nav-contact" aria-selected="false"><h6 class="mb-0">動態欄位</h6></button>
             </div>
-            <div class="col position-relative">
-              <calendar
-                show-icon icon-display="input"
-                v-model="searchModel.EndDate"
-                date-format="yy/mm/dd"
-                placeholder="yyyy/MM/dd" 
-              ></calendar>
-            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-plan01" role="tabpanel">
+            <lc-grid 
+              ref="grid"
+              guid="BFE88743-8568-46A4-BA7D-0BF3332B3245"
+              query-url="url: /hello/world"
+              :selectable="true"
+              :default-search-model="{sortField: 'ReceNo', sortAction: 'DESC'}"
+              @row-click="rowClick($event)"
+              >
+              <template #search="{searchModel}">
+                <div class="row">
+                  
+                  <div class="col-md-4 mb-3">
+                    <label for="input0" class="form-label">收文日期</label>
+                    <div class="row g-2">
+              <div class="col position-relative">
+                <calendar
+                  show-icon icon-display="input"
+                  v-model="searchModel.StartDate"
+                  date-format="yy/mm/dd"
+                  placeholder="yyyy/MM/dd" 
+                ></calendar>
+              </div>
+              <div class="col-1 d-flex align-items-center">
+                  <span>～</span>
+                </div>
+                <div class="col position-relative">
+                  <calendar
+                    show-icon icon-display="input"
+                    v-model="searchModel.EndDate"
+                    date-format="yy/mm/dd"
+                    placeholder="yyyy/MM/dd" 
+                  ></calendar>
+                </div>
+              </div>
+                </div>
+                  <div class="col-md-6 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">關鍵字</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="searchModel.KeyWord"
+                    />
+                  </div>
+                  <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">下拉選單(url)</label>
+                    <div>
+                      <lc-dropdown
+                        v-model="searchModel.selectedCity" 
+                        query-url="url: /hello/selectedCity"
+                        placeholder="請選擇2"
+                        editable
+                        ></lc-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">下拉選單(options)</label>
+                    <div>
+                      <lc-dropdown
+                        v-model="searchModel.selectedCity2" 
+                        :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
+                        ></lc-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">下拉選單(連動1)</label>
+                    <div>
+                      <lc-dropdown
+                        v-model="searchModel.selectedCity3" 
+                        :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
+                        @change="onChange(false, searchModel, dropdown2)"
+                        ></lc-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">下拉選單(連動2)</label>
+                    <div>
+                      <lc-dropdown
+                        ref="dropdown2"
+                        v-model="searchModel.selectedCity4"
+                        :init-query="false"
+                        ></lc-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">checkbox</label>
+                    <div class="flex align-items-center">
+                        <checkbox v-model="searchModel.check_group" input-id="ingredient1" name="check-group" value="checkbox1"></checkbox>
+                        <label for="ingredient1" class="ml-2"> 複選1 </label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <checkbox v-model="searchModel.check_group" input-id="ingredient2" name="check-group" value="checkbox2"></checkbox>
+                        <label for="ingredient2" class="ml-2"> 複選2 </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">radio button</label>
+                    <div class="flex align-items-center">
+                        <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient1" name="radio-group" value="radio-button  1"></radio-button>
+                        <label for="radio-ingredient1" class="ml-2"> 單選1 </label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient2" name="radio-group" value="radio-button  2"></radio-button>
+                        <label for="radio-ingredient2" class="ml-2"> 單選2 </label>
+                    </div>
+                  </div>
+                </div>
+                {{searchModel}}
+              </template>
+              <template #toolbar="{selectedItems}">
+                <div class="col-md-6">
+                  <button
+                    class="btn btn-color01 btn-sm me-1"
+                    @click="openModal()"
+                  >
+                    <i class="fas fa-add me-2" aria-hidden="true"></i
+                    >新增
+                  </button>
+                  <button class="btn btn-danger btn-sm me-1" @click="deleteItems">
+                    <i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除
+                  </button>
+                  <button
+                    class="btn btn-color01 btn-sm me-1"
+                    @click="exportList"
+                  >
+                    <i class="fas fa-file-alt me-2" aria-hidden="true"></i
+                    >匯出明細表
+                  </button>
+                  <button class="btn btn-color01 btn-sm me-1" @click="changeUser">
+                    <i class="fas fa-user-edit me-2" aria-hidden="true"></i
+                    >異動承辦人
+                  </button>
+                </div>
+                <div class="col-md-6 text-md-end mt-2 mt-md-0">
+                  <div class="me-3 d-inline text-primary">
+                    <i class="fas fa-circle me-1"></i>十日內到期案件
+                  </div>
+                  <div class="me-3 d-inline text-success">
+                    <i class="fas fa-circle me-1"></i>今日到期案件
+                  </div>
+                  <div class="me-3 d-inline text-danger">
+                    <i class="fas fa-circle me-1"></i>逾期案件
+                  </div>
+                </div>
+              </template>
+              <template #rows="{item}">
+                <lc-column title="公文文號" sort="ReceNo">{{item.ReceNo}}</lc-column>
+                <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
+                <lc-column title="來文日期">{{item.ComeDate}}</lc-column>
+                <lc-column title="收文日期">{{item.ReceDate}}</lc-column>
+                <lc-column title="限辦日期"><span>{{item.FinalDate}}</span></lc-column>
+                <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
+                <lc-column title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
+                  @click="openModal(item)">編輯</button>
+                </lc-column>
+              </template>
+            </lc-grid>
           </div>
-            </div>
-              <div class="col-md-6 col-lg-3 mb-3">
-                <label for="input0" class="form-label">關鍵字</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="searchModel.KeyWord"
-                />
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-                <label for="input0" class="form-label">下拉選單(url)</label>
-                <div>
-                  <lc-dropdown
-                    v-model="searchModel.selectedCity" 
-                    query-url="url: /hello/selectedCity"
-                    placeholder="請選擇2"
-                    editable
-                    ></lc-dropdown>
-                </div>
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-                <label for="input0" class="form-label">下拉選單(options)</label>
-                <div>
-                  <lc-dropdown
-                    v-model="searchModel.selectedCity2" 
-                    :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
-                    ></lc-dropdown>
-                </div>
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-                <label for="input0" class="form-label">下拉選單(連動1)</label>
-                <div>
-                  <lc-dropdown
-                    v-model="searchModel.selectedCity3" 
-                    :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
-                    @change="onChange(false, searchModel, dropdown2)"
-                    ></lc-dropdown>
-                </div>
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-                <label for="input0" class="form-label">下拉選單(連動2)</label>
-                <div>
-                  <lc-dropdown
-                    ref="dropdown2"
-                    v-model="searchModel.selectedCity4"
-                    :init-query="false"
-                    ></lc-dropdown>
-                </div>
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-                <label for="input0" class="form-label">checkbox</label>
-                <div class="flex align-items-center">
-                    <checkbox v-model="searchModel.check_group" input-id="ingredient1" name="check-group" value="checkbox1"></checkbox>
-                    <label for="ingredient1" class="ml-2"> 複選1 </label>
-                </div>
-                <div class="flex align-items-center">
-                    <checkbox v-model="searchModel.check_group" input-id="ingredient2" name="check-group" value="checkbox2"></checkbox>
-                    <label for="ingredient2" class="ml-2"> 複選2 </label>
-                </div>
-              </div>
-              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-                <label for="input0" class="form-label">radio button</label>
-                <div class="flex align-items-center">
-                    <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient1" name="radio-group" value="radio-button  1"></radio-button>
-                    <label for="radio-ingredient1" class="ml-2"> 單選1 </label>
-                </div>
-                <div class="flex align-items-center">
-                    <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient2" name="radio-group" value="radio-button  2"></radio-button>
-                    <label for="radio-ingredient2" class="ml-2"> 單選2 </label>
-                </div>
-              </div>
-            </div>
-            {{searchModel}}
-          </template>
-          <template #toolbar="{selectedItems}">
-            <div class="col-md-6">
-              <button
-                class="btn btn-color01 btn-sm me-1"
-                @click="openModal()"
+          <div class="tab-pane fade" id="nav-plan02" role="#nav-plan02" aria-labelledby="nav-plan02-tab">
+            <lc-grid 
+              ref="grid2"
+              guid="BFE88743-8568-46A4-BA7D-0BF3332B3246"
+              query-url="url: /hello/world"
+              :selectable="true"
+              :cross-page-select="true"
+              :select-key="'ReceNo'"
               >
-                <i class="fas fa-add me-2" aria-hidden="true"></i
-                >新增
-              </button>
-              <button class="btn btn-danger btn-sm me-1" @click="deleteItems">
-                <i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除
-              </button>
-              <button
-                class="btn btn-color01 btn-sm me-1"
-                @click="exportList"
+              <template #search="{searchModel}">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">關鍵字</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="searchModel.KeyWord"
+                    />
+                  </div>
+                </div>
+                {{searchModel}}
+              </template>
+              <template #toolbar="{selectedItems}">
+                <ul>
+                  <li v-for="item in [...selectedItems.values()]">{{item}}</li>
+                </ul>
+              </template>
+              <template #rows="{item}">
+                <lc-column title="公文文號" sort="ReceNo">{{item.ReceNo}}</lc-column>
+                <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
+                <lc-column title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
+                  @click="openModal(item)">編輯</button>
+                </lc-column>
+              </template>
+            </lc-grid>
+          </div>
+          <div class="tab-pane fade" id="nav-plan03" role="#nav-plan03" aria-labelledby="nav-plan03-tab">
+            <lc-grid 
+              ref="grid3"
+              guid="BFE88743-8568-46A4-BA7D-0BF3332B3247"
+              query-url="url: /hello/world"
+              :selectable="true"
               >
-                <i class="fas fa-file-alt me-2" aria-hidden="true"></i
-                >匯出明細表
-              </button>
-              <button class="btn btn-color01 btn-sm me-1" @click="changeUser">
-                <i class="fas fa-user-edit me-2" aria-hidden="true"></i
-                >異動承辦人
-              </button>
-            </div>
-            <div class="col-md-6 text-md-end mt-2 mt-md-0">
-              <div class="me-3 d-inline text-primary">
-                <i class="fas fa-circle me-1"></i>十日內到期案件
-              </div>
-              <div class="me-3 d-inline text-success">
-                <i class="fas fa-circle me-1"></i>今日到期案件
-              </div>
-              <div class="me-3 d-inline text-danger">
-                <i class="fas fa-circle me-1"></i>逾期案件
-              </div>
-            </div>
-            {{[...selectedItems.values()].reduce((a, b)=> a+b.SN, 0)}}
-            <br>
-            {{[...selectedItems.values()].map(_=>_.CaseNo)}}
-          </template>
-          <template #rows="{item}">
-            <lc-column title="公文文號" sort="ReceNo">{{item.ReceNo}}</lc-column>
-            <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
-            <lc-column title="來文日期">{{item.ComeDate}}</lc-column>
-            <lc-column title="收文日期">{{item.ReceDate}}</lc-column>
-            <lc-column title="限辦日期"><span>{{item.FinalDate}}</span></lc-column>
-            <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
-            <lc-column title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
-              @click="openModal(item)">編輯</button>
-            </lc-column>
-          </template>
-        </lc-grid>
+              <template #search="{searchModel}">
+                <div class="row">
+                  <div class="col-md-6 col-lg-3 mb-3">
+                    <label for="input0" class="form-label">關鍵字</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="searchModel.KeyWord"
+                    />
+                  </div>
+                  <div class="col-md-12">
+                    <label for="showReceNo">
+                      <input type="checkbox" id="showReceNo" value="ReceNo" v-model="dynamicColumn">
+                      公文文號
+                    </label>
+                    <label for="showCaseNo">
+                      <input type="checkbox" id="showCaseNo" value="CaseNo" v-model="dynamicColumn">
+                      案號
+                    </label>
+                    <label for="showEditable">
+                      <input type="checkbox" id="showEditable" value="Editable" v-model="dynamicColumn">
+                      狀態
+                    </label>
+                  </div>
+                </div>
+                {{searchModel}}
+              </template>
+              <template #rows="{item}">
+                <lc-column 
+                  v-if="dynamicColumn.includes('ReceNo')"
+                  title="公文文號" sort="ReceNo">{{item.ReceNo}}</lc-column>
+                <lc-column 
+                  v-if="dynamicColumn.includes('CaseNo')"
+                  title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
+                <lc-column 
+                  v-if="dynamicColumn.includes('Editable')"
+                  title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
+                  @click="openModal(item)">編輯</button>
+                </lc-column>
+              </template>
+            </lc-grid>
+          </div>
+        </div>
         <!-- 新增燈箱 -->
         <lc-modal
           ref="modalRef"
