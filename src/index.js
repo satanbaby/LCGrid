@@ -3,6 +3,7 @@ import LcGrid from './components/LcGrid/LcGrid.js';
 import LcColumn from './components/LcGrid/LcColumn2.js';
 import LcModal from './components/LcModal/LcModal.js';
 import LcDropdown from './components/LcDropdown/LcDropdown.js';
+import LabCategory from './components/LabCategory.js';
 
 const {
   createApp,
@@ -16,7 +17,8 @@ const app = createApp({
     LcGrid,
     LcModal,
     LcDropdown,
-    LcColumn
+    LcColumn,
+    LabCategory
   },
   setup() {
     const list = ref({});
@@ -32,6 +34,9 @@ const app = createApp({
       searchData.value = grid.value.searchData
       // console.log(searchData.value)
       onChange(true, searchData.value, dropdown2.value)
+      searchData.value.labType = ['Mike']
+      searchData.value.KeyWord = "12323"
+      console.log(searchData.value)
     });
     const onChange = (isInit, model, childDropdown)=>{
       if(!isInit)

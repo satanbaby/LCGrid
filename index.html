@@ -115,7 +115,13 @@
               >
               <template #search="{searchModel}">
                 <div class="row">
-                  
+                  <lab-category
+                    v-model:lab-type="searchModel.labType"
+                    v-model:lab-kind="searchModel.labKind"
+                  ></lab-category>
+                  <!-- <lab-category
+                    v-model="searchModel.LabType"
+                  ></lab-category> -->
                   <div class="col-md-4 mb-3">
                     <label for="input0" class="form-label">收文日期</label>
                     <div class="row g-2">
