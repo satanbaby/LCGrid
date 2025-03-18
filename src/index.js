@@ -1,8 +1,7 @@
 import './styles.scss';
-import LcGrid from './components/LcGrid/LcGrid.js';
-import LcColumn from './components/LcGrid/LcColumn2.js';
+import {LcGridVue, LcColumn} from './components/LcGridVue/LcGridVue.js';
 import LcModal from './components/LcModal/LcModal.js';
-import LcDropdown from './components/LcDropdown/LcDropdown.js';
+import LcDatepicker from './components/LcDatepicker/LcDatepicker.js';
 
 const {
   createApp,
@@ -13,25 +12,22 @@ const {
 
 const app = createApp({
   components: {
-    LcGrid,
+    LcGridVue,
+    LcColumn,
     LcModal,
-    LcDropdown,
-    LcColumn
+    LcDatepicker
   },
   setup() {
     const list = ref({});
     const grid = ref(null);
     const modalData  = ref({})
     const modalRef = ref(null)
-    const dropdown2 = ref(null)
     const searchData = ref(null)
     onMounted(() => {
       const _dataSource = grid.value.dataSource;
       list.value = _dataSource;
       // console.log('searchData',  grid.value.searchData)
       searchData.value = grid.value.searchData
-      // console.log(searchData.value)
-      onChange(true, searchData.value, dropdown2.value)
     });
     const onChange = (isInit, model, childDropdown)=>{
       if(!isInit)
@@ -89,12 +85,7 @@ const app = createApp({
       dynamicColumn,
 
       rowClick,
-      dropdown2
     };
   },
 });
-app.use(primevue.config.default)
-app.component('calendar', primevue.calendar);
-app.component('checkbox', primevue.checkbox);
-app.component('radioButton', primevue.radiobutton);
 app.mount('#app')

@@ -44,13 +44,3 @@ function paginateData({pageSize, nowPage, sortAction, sortField}) {
 export default {
   paginateData,
 };
-// export {
-//   AllData: {
-
-//   },
-//   Bar,
-// }
-// export default {
-//   total: 93,
-//   rows: list,
-// };

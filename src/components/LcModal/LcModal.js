@@ -1,89 +1,122 @@
-const {
-  ref,
-  computed,
-  onMounted,
-  onBeforeUnmount
+﻿const {
+    ref,
+    computed,
+    toRaw,
+    onMounted
 } = Vue
-import { Modal } from 'bootstrap';
 
 export default {
-  name: 'BootstrapModal',
-  emits: ['hidden'],
-  setup(props, { emit }) {
-    const modal = ref(null);
-    let modalInstance = null;
+    components: {
+    },
+    emits: ['hidden'],
+    props: {
+        /**
+         * Modal的Size
+         * */
+        modalSize: {
+            type: String,
+            validator(value, props) {
+                return ['modal-sm', 'modal-lg', 'modal-xl'].includes(value)
+            }
+        },
+        closeText: {
+            type: String,
+            default: "取消"
+        },
+    },
+    setup(props, {emit}) {
+        const initModel = ref({})
+        const updateModel = ref({})
+        const modelRef = ref()
 
-    onMounted(()=>{
-      // console.dir()
-      modal.value.addEventListener('hidden.bs.modal', function (event) {
-        emit('hidden');
-      })
-    })
+        const visible = ref(false)
 
-    onBeforeUnmount(() => {
-      if (modalInstance) {
-        modalInstance.dispose();
-      }
-    });
+        const show = (_initModel) => {
+            initModel.value = _initModel ? structuredClone(toRaw(_initModel)) : _initModel
+            updateModel.value = _initModel
+            visible.value = true
+        };
 
-    const show = () => {
-      console.log('show', modal.value)
-      modalInstance = new Modal(modal.value);
-      modalInstance.show();
-    };
+        const hide = () => {
+            modelRef.value.close()
+        }
 
-    const hide = () => {
-      if (modalInstance) {
-        modalInstance.hide();
-      }
-    };
+        onMounted(() => {
+            // 因為PrimeVue Dialog沒有BeforeHide事件，所以先自己攔截
+            const originCloseEvent = modelRef.value.close
+            modelRef.value.close = () => {
+                const defaultFunction = () => {
+                    originCloseEvent()
+                    // 清空資料
+                    initModel.value = {}
+                    updateModel.value = {}
+                    // 觸發外部事件
+                    handleHidden()
+                }
 
-    const handleHidden = () => {
-      console.log('hidden')
-      emit('hidden');
-    };
+                const check = confirm('確定要放棄變更嗎')
+                if (check) {
+                    defaultFunction()
+                }
+            }
+        })
 
+        const handleHidden = () => {
+            emit('hidden');
+        };
 
-    return {
-      modal,
-      show,
-      hide,
-      handleHidden,
-    };
-  },
-  template: `
-  <!-- 新增燈箱 -->
-  <div class="modal fade" ref="modal" tabindex="-1" aria-labelledby="addModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <slot name="header"></slot>
+        const dialogWidth = computed(() => {
+            // 仿照Bootstrap Modal Size
+            switch (props.modalSize) {
+                case 'modal-sm':
+                    return '300px'
+                case 'modal-lg':
+                    return '800px'
+                case 'modal-xl':
+                    return '1140px'
+                default:
+                    return '500px'
+            }
+        })
+
+        return {
+            modelRef,
+            show,
+            hide,
+            visible,
+            dialogWidth
+        };
+    },
+    template: `
+        <!-- 新增燈箱 -->
+        <div>
+            <modal
+                ref="modelRef"
+                v-model:visible="visible"
+                modal
+                :draggable="false"
+                :style="{ width: dialogWidth }"
+                :pt="{
+                    header: 'border-bottom',
+                    content: 'p-3',
+                    footer: 'border-top p-3'
+                }">
+                <template #header>
+                    <slot name="header"></slot>
+                </template>
+                <slot name="body"></slot>
+                <template #footer>
+                    <!--沒cancel插槽就用預設-->
+                    <button
+                        v-if="!$slots.cancel"
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        @click="modelRef.close"
+                        >取消</button>
+                    <slot name="cancel" :close="modelRef.close"></slot>
+                    <slot name="footer"></slot>
+                </template>
+            </modal>
         </div>
-        <div class="modal-body">
-          <slot name="body"></slot>
-        </div>
-        <div class="modal-footer">
-          <slot name="footer"></slot>
-        </div>
-      </div>
-    </div>
-  </div>
-  `,
+    `,
 }
-
-// export default {
-//   props: {
-//   },
-//   emits:[
-//   ],
-//   components: {
-//   },
-//   setup(props, ctx) {
-//     onMounted(() => {
-//     });
-//     return {
-//     };
-//   },
-  
-// };
