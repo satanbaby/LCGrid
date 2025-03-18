@@ -4,9 +4,9 @@ for (let i = 0; i < 100; i++)
         SN: i + 1,
         ReceNo: `11201010000${i.toString().padStart(2, '0')}`,
         CaseNo: `K000${i.toString().padStart(2, '0')}`,
-        ComeDate: '113/04/18',
-        ReceDate: '114/04/16',
-        FinalDate: '113/04/20',
+        ComeDate: dayjs().add(i, 'day').toDate(),
+        ReceDate: dayjs().add(i - 60, 'day').toDate(),
+        FinalDate: dayjs().add(i - 30, 'day').toDate(),
         User: `使用者${i}`,
       });
     
@@ -48,7 +48,7 @@ const paginateData = ({pageSize, nowPage, sortAction, sortField}) => {
   // 返回指定頁碼的分頁結果
   const result = sortedData.slice(startIndex, endIndex);
   return {
-    rows: JSON.parse(JSON.stringify(result)),
+    rows: structuredClone(result),
     total: sortedData.length
   };
 }

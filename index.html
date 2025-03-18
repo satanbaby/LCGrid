@@ -24,7 +24,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="document-case.html">基礎使用</a>
+            <a class="nav-link active" aria-current="page" href="index.html">教育訓練題目</a>
           </li>
         </ul>
       </div>
@@ -37,7 +37,7 @@
 
     <div class="container-fluid" id="app">
       <div class="main-title">
-        <h5>LcGrid</h5>
+        <h5>教育訓練題目</h5>
         <nav aria-label="breadcrumb" class="d-none d-sm-inline-block ms-auto">
           <ol class="breadcrumb bg-transparent p-0 m-0">
             <li class="breadcrumb-item">
@@ -59,7 +59,7 @@
           <div class="row">
 
             <div class="col-md-4 mb-3">
-              <label class="form-label">收文日期</label>
+              <label class="form-label">接收日期</label>
               <div class="row g-2">
                 <div class="col position-relative">
                   <lc-datepicker v-model="searchModel.ReceDate"></lc-datepicker>
@@ -145,19 +145,20 @@
         <template #rows="{item}">
           <lc-column title="公文文號" sort="ReceNo">{{item.ReceNo}}</lc-column>
           <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
-          <lc-column title="來文日期">{{item.ComeDate}}</lc-column>
-          <lc-column title="收文日期">{{item.ReceDate}}</lc-column>
-          <lc-column title="限辦日期"><span>{{item.FinalDate}}</span></lc-column>
+          <lc-column title="來文日期">{{item.ComeDate.toLocaleDateString()}}</lc-column>
+          <lc-column title="接收日期">{{item.ReceDate.toLocaleDateString()}}</lc-column>
+          <lc-column title="到期日期"><span>{{item.FinalDate.toLocaleDateString()}}</span></lc-column>
           <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
-          <lc-column title="狀態">處理中<button class="btn btn-sm btn-color01 outline-btn ms-1"
-              @click="openModal(item)">編輯</button>
+          <lc-column title="狀態">
+            處理中
+            <button class="btn btn-sm btn-color01 outline-btn ms-1">編輯</button>
           </lc-column>
         </template>
       </lc-grid-vue>
       <!-- 新增燈箱 -->
       <lc-modal ref="modalRef" @hidden="onModalHidden">
         <template #header>
-          <h1 class="modal-title fs-5">案由 - 新增</h1>
+          <h1 class="modal-title fs-5">彈出視窗 - {新增/編輯/檢視}</h1>
         </template>
         <template #body>
           <div class="mb-3">
