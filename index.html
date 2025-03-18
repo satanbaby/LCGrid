@@ -62,13 +62,13 @@
               <label class="form-label">接收日期</label>
               <div class="row g-2">
                 <div class="col position-relative">
-                  <lc-datepicker v-model="searchModel.ReceDate"></lc-datepicker>
+                  <lc-datepicker></lc-datepicker>
                 </div>
                 <div class="col-1 d-flex align-items-center">
                   <span>～</span>
                 </div>
                 <div class="col position-relative">
-                  <lc-datepicker v-model="searchModel.EndDate"></lc-datepicker>
+                  <lc-datepicker></lc-datepicker>
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@
             <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
               <label class="form-label">下拉選單(options)</label>
               <div>
-                <dropdown v-model="searchModel.selectedCity2"
+                <dropdown 
                   :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
                   option-label="Text"
                   option-value="Value"></dropdown>
