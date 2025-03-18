@@ -1,6 +1,6 @@
 ﻿import LCGridVueColumn from './LcGridVueColumn.js';
 import {paginateData} from "./LocalPaggingList.js";
-import FakeBackend from '../../FakeBackend/fakeApiData.js';
+import FakeBackend from '../../FakeBackend/FakeBackend.js';
 
 const {
     ref,

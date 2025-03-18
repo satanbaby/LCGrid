@@ -2,28 +2,16 @@
 
 [Edit in StackBlitz next generation editor ⚡️](https://stackblitz.com/~/github.com/satanbaby/LCGrid)
 
-## 快速開始
-```html
-<lc-grid 
-    ref="供父組件選擇的元件名"
-    :query-url="發送API路徑"
-    :default-search-model="{sortField: 'ID', sortAction: 'DESC'} 預設SearchModel"
-    :remember-query="true 是否儲存查詢紀錄"
-    :guid="GUID 儲存查詢紀錄用"
-    :cols="['欄位1', {columnName: '欄位2', sortName: '資料庫排序欄位名'}]"
-    :init-query="true 是否在畫面載入時自動查詢"
-    :selectable="是否開啟選取框"
-    :cross-page-select="是否開啟跨頁選取功能"
-    :select-key="'跨頁選取Key'"
-    >
-    <template #search="{searchModel}">
-        <!-- 查詢區域 -->
-    </template>
-    <template #toolbar>
-        <!-- 工具列區域 -->
-    </template>
-    <template #rows="{item}">
-        <!-- 列表區域 -->
-    </template>
-</lc-grid>
-```
+## 功能需求
+- 在彈跳視窗中新增承辦人欄位
+- 新增資料後，列表中新增一筆資料
+- 編輯資料後按下儲存，列表中的資料也會跟著更新
+- 點擊刪除按鈕，該筆資料會從列表中移除
+
+## 假後端 API
+`src/FakeBackend/FakeBackend.js` 文件模擬了後端 API，提供了以下方法：
+- `GetList(searchModel)`: 根據搜尋模型返回分頁資料
+- `Get(id)`: 根據 ID 獲取單筆資料
+- `Create(item)`: 新增一筆資料
+- `Update(id, updatedItem)`: 更新指定 ID 的資料
+- `Delete(receNos)`: 刪除指定收件號碼的資料

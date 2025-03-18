@@ -2,7 +2,7 @@ import './styles.scss';
 import {LcGridVue, LcColumn} from './components/LcGridVue/LcGridVue.js';
 import LcModal from './components/LcModal/LcModal.js';
 import LcDatepicker from './components/LcDatepicker/LcDatepicker.js';
-import FakeBackend from './FakeBackend/fakeApiData.js';
+import FakeBackend from './FakeBackend/FakeBackend.js';
 
 const {
   createApp,

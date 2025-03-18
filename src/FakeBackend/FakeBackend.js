@@ -1,6 +1,6 @@
-const list = [];
+const database = [];
 for (let i = 0; i < 100; i++)
-    list.push({
+    database.push({
         SN: i + 1,
         ReceNo: `11201010000${i.toString().padStart(2, '0')}`,
         CaseNo: `K000${i.toString().padStart(2, '0')}`,
@@ -11,7 +11,7 @@ for (let i = 0; i < 100; i++)
       });
     
 
-const allField = Object.getOwnPropertyNames(list[0])
+const allField = Object.getOwnPropertyNames(database[0])
 
 /**
  * 分頁並排序資料
@@ -33,7 +33,7 @@ const paginateData = ({pageSize, nowPage, sortAction, sortField}) => {
   const field = validSortFields.includes(sortField) ? sortField : 'ID'; // 預設排序欄位為 id
   
   // 根據排序方式和排序欄位對資料進行排序
-  const sortedData = list.slice().sort((a, b) => {
+  const sortedData = database.slice().sort((a, b) => {
     if (action === 'ASC') {
       return a[field] > b[field] ? 1 : -1;
     } else {
@@ -68,7 +68,7 @@ const GetList = (searchModel) => {
  * @returns {Object} 單筆資料
  */
 const Get = (id) => {
-  return list.find(item => item.SN === id);
+  return database.find(item => item.SN === id);
 }
 
 /**
@@ -76,7 +76,7 @@ const Get = (id) => {
  * @param {Object} item - 新增的資料
  */
 const Create = (item) => {
-  list.push(item);
+  database.push(item);
 }
 
 /**
@@ -85,9 +85,9 @@ const Create = (item) => {
  * @param {Object} updatedItem - 更新的資料
  */
 const Update = (id, updatedItem) => {
-  const index = list.findIndex(item => item.SN === id);
+  const index = database.findIndex(item => item.SN === id);
   if (index !== -1) {
-    list[index] = { ...list[index], ...updatedItem };
+    database[index] = { ...database[index], ...updatedItem };
   }
 }
 
@@ -97,9 +97,9 @@ const Update = (id, updatedItem) => {
  */
 const Delete = (receNos) => {
     receNos.forEach(no => {
-        const index = list.findIndex(item => item.ReceNo === no);
+        const index = database.findIndex(item => item.ReceNo === no);
         if (index !== -1) {
-            list.splice(index, 1);
+            database.splice(index, 1);
         }
     });
 }
