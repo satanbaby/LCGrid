@@ -1,14 +1,15 @@
 const list = [];
 for (let i = 0; i < 100; i++)
-  list.push({
-    SN: i + 1,
-    ReceNo: '11201010000' + i.toString().padStart(2, '0'),
-    CaseNo: 'K000' + i.toString().padStart(2, '0'),
-    ComeDate: '113/04/18',
-    ReceDate: '114/04/16',
-    FinalDate: '113/04/20',
-    User: '周OO',
-  });
+    list.push({
+        SN: i + 1,
+        ReceNo: `11201010000${i.toString().padStart(2, '0')}`,
+        CaseNo: `K000${i.toString().padStart(2, '0')}`,
+        ComeDate: '113/04/18',
+        ReceDate: '114/04/16',
+        FinalDate: '113/04/20',
+        User: `使用者${i}`,
+      });
+    
 
 const allField = Object.getOwnPropertyNames(list[0])
 
@@ -60,11 +61,13 @@ function Update(id, updatedItem) {
   }
 }
 
-function Delete(id) {
-  const index = list.findIndex(item => item.SN === id);
-  if (index !== -1) {
-    list.splice(index, 1);
-  }
+function Delete(receNos) {
+    receNos.forEach(no => {
+        const index = list.findIndex(item => item.ReceNo === no);
+        if (index !== -1) {
+            list.splice(index, 1);
+        }
+    });
 }
 
 export default {

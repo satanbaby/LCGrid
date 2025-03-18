@@ -54,10 +54,7 @@ export default {
                     handleHidden()
                 }
 
-                const check = confirm('確定要放棄變更嗎')
-                if (check) {
-                    defaultFunction()
-                }
+                defaultFunction()
             }
         })
 
