@@ -147,7 +147,7 @@
           <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
           <lc-column title="來文日期">{{item.ComeDate.toLocaleDateString()}}</lc-column>
           <lc-column title="接收日期">{{item.ReceDate.toLocaleDateString()}}</lc-column>
-          <lc-column title="到期日期"><span>{{item.FinalDate.toLocaleDateString()}}</span></lc-column>
+          <lc-column title="到期日期" :class="getFinalDateClass(item?.FinalDate)"><span>{{item.FinalDate.toLocaleDateString()}}</span></lc-column>
           <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
           <lc-column title="狀態">
             處理中

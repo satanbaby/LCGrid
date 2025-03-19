@@ -4,6 +4,7 @@ import LcModal from './components/LcModal/LcModal.js';
 import LcDatepicker from './components/LcDatepicker/LcDatepicker.js';
 import FakeBackend from './FakeBackend/FakeBackend.js';
 import { Modal } from 'bootstrap';
+import { computed } from 'vue';
 
 const {
   createApp,
@@ -45,6 +46,30 @@ const app = createApp({
       }
 
     }
+
+    /**
+     * 依到期日期調整列表樣式
+     * @param {Date} Finaldate 公文到期日期
+     * @returns 
+     */
+    const getFinalDateClass = (Finaldate) => {
+
+      const today = new Date(); 
+      today.setHours(0, 0, 0, 0);   //將時間歸零，只比較日期
+      const finalDate = new Date(Finaldate); 
+      finalDate.setHours(0, 0, 0, 0);   //將時間歸零，只比較日期
+      const diffDays = (finalDate - today) / (1000 * 60 * 60 * 24); // 計算相差天數(毫秒*秒*分鐘*小時來計算天數)
+
+      if (diffDays < 0) {  //已逾期
+        return 'text-danger'; 
+      } else if (diffDays === 0) {  //今日到期
+        return 'text-success'; 
+      } else if (diffDays <= 10) {
+        return 'text-primary'; 
+      }
+      return ''; 
+    }
+
 
     const exportList = () => {
       alert('匯出');
@@ -120,6 +145,7 @@ const app = createApp({
       closeModal,
       onModalHidden,
       saveModal,
+      getFinalDateClass,
 
 
       modalRef,
