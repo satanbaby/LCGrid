@@ -22,6 +22,7 @@ const app = createApp({
   setup() {
     const grid = ref(null);
     const modalData = ref({
+      Status:'',
       ReceNo: '',
       User: '',
       Content: ''
@@ -40,15 +41,17 @@ const app = createApp({
     const changeUser = () => {
       alert('異動承辦人');
     }
-    const openModal = (doc) => {
-      if (doc) {
+    const openModal = (status,doc) => {
+      if (doc&&doc.SN) {
         modalData.value = { ...doc }
       }
-      modalRef.value.show()
+      modalData.value.Status=status;
+      modalRef.value.show();
     }
 
     const closeModal = () => {
       modalData.value = {
+        Status:'',
         ReceNo: '',
         User: '',
         Content: ''
@@ -72,17 +75,24 @@ const app = createApp({
         return;
       }
       //儲存
-      const saveItem = {
-        SN: 101,  //先設固定值
-        ReceNo: modalData.value.ReceNo,
-        CaseNo: `K00100`, //先設固定值
-        ComeDate: dayjs().add(0, 'day').toDate(), //先設固定值
-        ReceDate: dayjs().add(- 60, 'day').toDate(),  //先設固定值
-        FinalDate: dayjs().add(- 30, 'day').toDate(), //先設固定值
-        User: modalData.value.User
-        // Content:modalData.value.Content  //modal欄位有"備註"但建置data無此欄位
+      if(modalData.value.Status==='新增'){
+        const saveItem = {
+          SN: 101,  //先設固定值
+          ReceNo: modalData.value.ReceNo,
+          CaseNo: `K00100`, //先設固定值
+          ComeDate: dayjs().add(0, 'day').toDate(), //先設固定值
+          ReceDate: dayjs().add(- 60, 'day').toDate(),  //先設固定值
+          FinalDate: dayjs().add(- 30, 'day').toDate(), //先設固定值
+          User: modalData.value.User
+          // Content:modalData.value.Content  //modal欄位有"備註"但建置data無此欄位
+        }
+        FakeBackend.Create(saveItem)
       }
-      FakeBackend.Create(saveItem)
+      else if(modalData.value.Status==='編輯')
+      {
+        FakeBackend.Update(modalData.value.SN,modalData.value)
+      }
+      
       closeModal();
 
     }

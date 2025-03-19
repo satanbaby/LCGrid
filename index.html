@@ -116,7 +116,7 @@
         <template #toolbar="{selectedItems}">
           <div class="d-flex justify-content-between align-items-center mb-3">
               <div>
-                <button class="btn btn-color01 btn-sm me-1" @click="openModal()">
+                <button class="btn btn-color01 btn-sm me-1" @click="openModal('新增',)">
                   <i class="fas fa-add me-2" aria-hidden="true"></i>新增
                 </button>
                 <button class="btn btn-danger btn-sm me-1" @click="deleteItems">
@@ -151,14 +151,14 @@
           <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
           <lc-column title="狀態">
             處理中
-            <button class="btn btn-sm btn-color01 outline-btn ms-1">編輯</button>
+            <button class="btn btn-sm btn-color01 outline-btn ms-1" @click="openModal('編輯',item)">編輯</button>
           </lc-column>
         </template>
       </lc-grid-vue>
       <!-- 新增燈箱 -->
       <lc-modal ref="modalRef" @hidden="onModalHidden">
         <template #header>
-          <h1 class="modal-title fs-5">彈出視窗 - {新增/編輯/檢視}</h1>
+          <h1 class="modal-title fs-5">彈出視窗 - {{modalData.Status}}</h1>
         </template>
         <template #body>
           <div class="mb-3">
