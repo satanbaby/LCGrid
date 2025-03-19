@@ -41,6 +41,7 @@ const app = createApp({
         const messageReceNos = selectedItem.join('、');
         alert('刪除文號:' + messageReceNos);
       }
+      grid.value.query();
     }
 
     /**
@@ -50,20 +51,20 @@ const app = createApp({
      */
     const getFinalDateClass = (Finaldate) => {
 
-      const today = new Date(); 
+      const today = new Date();
       today.setHours(0, 0, 0, 0);   //將時間歸零，只比較日期
-      const finalDate = new Date(Finaldate); 
+      const finalDate = new Date(Finaldate);
       finalDate.setHours(0, 0, 0, 0);   //將時間歸零，只比較日期
       const diffDays = (finalDate - today) / (1000 * 60 * 60 * 24); // 計算相差天數(毫秒*秒*分鐘*小時來計算天數)
 
       if (diffDays < 0) {  //已逾期
-        return 'text-danger'; 
+        return 'text-danger';
       } else if (diffDays === 0) {  //今日到期
-        return 'text-success'; 
+        return 'text-success';
       } else if (diffDays <= 10) {
-        return 'text-primary'; 
+        return 'text-primary';
       }
-      return ''; 
+      return '';
     }
 
 
@@ -79,6 +80,8 @@ const app = createApp({
      * @param {object} doc    傳入公文資料
      */
     const openModal = (status, doc) => {
+      modalData.value = {}  //打開modal時先清理modalData
+
       if (doc && doc.SN) {
         modalData.value = { ...doc }
       }
@@ -87,12 +90,6 @@ const app = createApp({
     }
 
     const closeModal = () => {
-      modalData.value = {
-        Status: '',
-        ReceNo: '',
-        User: '',
-        Content: ''
-      }
       modalRef.value.hide()
     }
 
@@ -125,9 +122,8 @@ const app = createApp({
       else if (modalData.value.Status === '編輯') {
         FakeBackend.Update(modalData.value.SN, modalData.value)
       }
-
+      grid.value.query();
       closeModal();
-
     }
 
     return {
