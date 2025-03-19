@@ -22,7 +22,7 @@ const app = createApp({
   setup() {
     const grid = ref(null);
     const modalData = ref({
-      Status:'',
+      Status: '',
       ReceNo: '',
       User: '',
       Content: ''
@@ -31,8 +31,19 @@ const app = createApp({
 
     const deleteItems = () => {
       const selectedItem = grid.value.getSelected().map(_ => _.ReceNo)
-      const messageReceNos = selectedItem.join('、');
-      alert('刪除文號:' + messageReceNos);
+      if (selectedItem.length === 0) {
+        alert('請選取欲刪除資料')
+        return;
+      }
+      if (confirm(`確認刪除筆${selectedItem.length}資料？`)) {
+        FakeBackend.Delete(selectedItem)
+        const messageReceNos = selectedItem.join('、');
+        alert('刪除文號:' + messageReceNos);
+      }
+      else {
+
+      }
+
     }
 
     const exportList = () => {
@@ -41,17 +52,22 @@ const app = createApp({
     const changeUser = () => {
       alert('異動承辦人');
     }
-    const openModal = (status,doc) => {
-      if (doc&&doc.SN) {
+    /**
+     * 打開Modal來新增/編輯/檢視公文資料
+     * @param {string} status Modal狀態(新增/編輯/檢視)
+     * @param {object} doc    傳入公文資料
+     */
+    const openModal = (status, doc) => {
+      if (doc && doc.SN) {
         modalData.value = { ...doc }
       }
-      modalData.value.Status=status;
+      modalData.value.Status = status;
       modalRef.value.show();
     }
 
     const closeModal = () => {
       modalData.value = {
-        Status:'',
+        Status: '',
         ReceNo: '',
         User: '',
         Content: ''
@@ -75,7 +91,7 @@ const app = createApp({
         return;
       }
       //儲存
-      if(modalData.value.Status==='新增'){
+      if (modalData.value.Status === '新增') {
         const saveItem = {
           SN: 101,  //先設固定值
           ReceNo: modalData.value.ReceNo,
@@ -88,11 +104,10 @@ const app = createApp({
         }
         FakeBackend.Create(saveItem)
       }
-      else if(modalData.value.Status==='編輯')
-      {
-        FakeBackend.Update(modalData.value.SN,modalData.value)
+      else if (modalData.value.Status === '編輯') {
+        FakeBackend.Update(modalData.value.SN, modalData.value)
       }
-      
+
       closeModal();
 
     }
