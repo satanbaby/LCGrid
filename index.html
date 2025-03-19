@@ -152,6 +152,7 @@
           <lc-column title="狀態">
             處理中
             <button class="btn btn-sm btn-color01 outline-btn ms-1" @click="openModal('編輯',item)">編輯</button>
+            <button class="btn btn-sm btn-color01 outline-btn ms-1" @click="openModal('檢視',item)">檢視</button>
           </lc-column>
         </template>
       </lc-grid-vue>
@@ -163,11 +164,13 @@
         <template #body>
           <div class="mb-3">
             <label for="receNo" class="form-label required">公文文號</label>
-            <input type="text" id="receNo" class="form-control" v-model="modalData.ReceNo">
+            <input v-if="modalData.Status!=='檢視'" type="text" id="receNo" class="form-control" v-model="modalData.ReceNo">
+            <p v-else>{{modalData.ReceNo}}</p>
           </div>
           <div class="mb-3">
             <label for="user" class="form-label required">承辦人</label>
-            <input type="text" id="user" class="form-control" v-model="modalData.User">
+            <input v-if="modalData.Status!=='檢視'" type="text" id="user" class="form-control" v-model="modalData.User">
+            <p v-else>{{modalData.User}}</p>
           </div>
           <div class="mb-3">
             <label for="Textarea1" class="form-label">備註</label>
@@ -175,7 +178,7 @@
           </div>
         </template>
         <template #footer>
-          <button type="button" class="btn btn-color01" @click="saveModal">儲存</button>
+          <button v-if="modalData.Status!=='檢視'" type="button" class="btn btn-color01" @click="saveModal">儲存</button>
         </template>
       </lc-modal>
     </div>
