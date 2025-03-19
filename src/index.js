@@ -36,15 +36,11 @@ const app = createApp({
         alert('請選取欲刪除資料')
         return;
       }
-      if (confirm(`確認刪除筆${selectedItem.length}資料？`)) {
+      if (confirm(`確認刪除${selectedItem.length}筆資料？`)) {
         FakeBackend.Delete(selectedItem)
         const messageReceNos = selectedItem.join('、');
         alert('刪除文號:' + messageReceNos);
       }
-      else {
-
-      }
-
     }
 
     /**
@@ -100,9 +96,6 @@ const app = createApp({
       modalRef.value.hide()
     }
 
-    const onModalHidden = () => {
-      modalData.value = {}
-    }
 
     const saveModal = () => {
       //檢查欄位
@@ -143,7 +136,6 @@ const app = createApp({
       changeUser,
       openModal,
       closeModal,
-      onModalHidden,
       saveModal,
       getFinalDateClass,
 
