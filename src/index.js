@@ -3,14 +3,10 @@ import { LcGridVue, LcColumn } from './components/LcGridVue/LcGridVue.js';
 import LcModal from './components/LcModal/LcModal.js';
 import LcDatepicker from './components/LcDatepicker/LcDatepicker.js';
 import FakeBackend from './FakeBackend/FakeBackend.js';
-import { Modal } from 'bootstrap';
-import { computed } from 'vue';
 
 const {
   createApp,
-  ref,
-  onMounted,
-  watch
+  ref
 } = Vue;
 
 const app = createApp({
@@ -23,12 +19,20 @@ const app = createApp({
   setup() {
     const grid = ref(null);
     const modalData = ref({
-      Status: '',
+      Status: { key: '', label: '' },
       ReceNo: '',
       User: '',
       Content: ''
     })
     const modalRef = ref(null)
+
+    //管理Modal狀態用的Enum
+    const modalStatusEnum = ref({
+      add: { key: 'add', label: '新增' },
+      edit: { key: 'edit', label: '編輯' },
+      view: { key: 'view', label: '檢視' }
+    })
+
 
     const deleteItems = () => {
       const selectedItem = grid.value.getSelected().map(_ => _.ReceNo)
@@ -75,8 +79,8 @@ const app = createApp({
       alert('異動承辦人');
     }
     /**
-     * 打開Modal來新增/編輯/檢視公文資料
-     * @param {string} status Modal狀態(新增/編輯/檢視)
+     * 打開Modal來add(新增)/edit(編輯)/view(檢視)公文資料
+     * @param {string} status Modal狀態(add(新增)/edit(編輯)/view(檢視)))
      * @param {object} doc    傳入公文資料
      */
     const openModal = (status, doc) => {
@@ -85,7 +89,7 @@ const app = createApp({
       if (doc && doc.SN) {
         modalData.value = { ...doc }
       }
-      modalData.value.Status = status;
+      modalData.value.Status = modalStatusEnum.value[status];
       modalRef.value.show();
     }
 
@@ -106,7 +110,7 @@ const app = createApp({
         return;
       }
       //儲存
-      if (modalData.value.Status === '新增') {
+      if (modalData.value.Status.key === modalStatusEnum.value.add.key) {
         const saveItem = {
           SN: 101,  //先設固定值
           ReceNo: modalData.value.ReceNo,
@@ -119,8 +123,9 @@ const app = createApp({
         }
         FakeBackend.Create(saveItem)
       }
-      else if (modalData.value.Status === '編輯') {
-        FakeBackend.Update(modalData.value.SN, modalData.value)
+      else if (modalData.value.Status.key === modalStatusEnum.value.edit.key) {
+        const { Status, ...newData } = modalData.value;  //解構賦值(Destructuring Assignment) 排除Status不須存入
+        FakeBackend.Update(modalData.value.SN, newData)
       }
       grid.value.query();
       closeModal();
@@ -139,6 +144,7 @@ const app = createApp({
       modalRef,
       modalData,
       grid,
+      modalStatusEnum
     };
   },
 });
