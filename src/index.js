@@ -85,8 +85,6 @@ const app = createApp({
      * @param {object} doc    傳入公文資料
      */
     const openModal = (status, doc) => {
-      modalData.value = {}  //打開modal時先清理modalData
-
       if (doc && doc.SN) {
         modalData.value = { ...doc }
       }
@@ -95,18 +93,18 @@ const app = createApp({
     }
 
     const closeModal = () => {
-      modalRef.value.hide()
+      modalData.value = {};
     }
 
 
     const saveModal = () => {
       //檢查欄位
-      if (modalData.value.ReceNo.trim() === '') {
+      if (!modalData.value.ReceNo || modalData.value.ReceNo.trim() == '') {
         alert('未填寫公文文號！');
         // console.log('未填寫公文文號');
         return;
       }
-      if (modalData.value.User.trim() === '') {
+      if (!modalData.value.User || modalData.value.User.trim() == '') {
         alert('未填寫承辦人！');
         return;
       }
@@ -124,7 +122,7 @@ const app = createApp({
         FakeBackend.Update(modalData.value.SN, newData)
       }
       grid.value.query();
-      closeModal();
+      modalRef.value.hide()
     }
 
     return {

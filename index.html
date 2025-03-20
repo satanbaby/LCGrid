@@ -157,7 +157,7 @@
         </template>
       </lc-grid-vue>
       <!-- 新增燈箱 -->
-      <lc-modal ref="modalRef" @hidden="onModalHidden">
+      <lc-modal ref="modalRef" @hidden="closeModal">
         <template #header>
           <h1 class="modal-title fs-5">彈出視窗 - {{modalData.Status.label}}</h1>
         </template>
