@@ -73,10 +73,18 @@ const Get = (id) => {
 
 /**
  * 新增一筆資料
- * @param {Object} item - 新增的資料
+ * @param {Object} newItem - 新增的資料
  */
-const Create = (item) => {
-  database.push(item);
+const Create = (newItem) => {
+  const newSN = database.reduce((max, item) => Math.max(max, item.SN), 0) + 1; //以當前SN最大值+1作為新SN值
+  database.push({
+    ...newItem,
+    SN: newSN,
+    CaseNo: `K${(newSN - 1).toString().padStart(5, '0')}`,
+    ComeDate: dayjs().add(0, 'day').toDate(),
+    ReceDate: dayjs().add(- 60, 'day').toDate(),
+    FinalDate: dayjs().add(- 30, 'day').toDate(),
+  });
 }
 
 /**
@@ -92,16 +100,16 @@ const Update = (id, updatedItem) => {
 }
 
 /**
- * 刪除指定收件號碼的資料
- * @param {Array} receNos - 收件號碼陣列
+ * 刪除指定SN的資料
+ * @param {Array} SNs - SN陣列
  */
-const Delete = (receNos) => {
-    receNos.forEach(no => {
-        const index = database.findIndex(item => item.ReceNo === no);
-        if (index !== -1) {
-            database.splice(index, 1);
-        }
-    });
+const Delete = (SNs) => {
+  SNs.forEach(no => {
+    const index = database.findIndex(item => item.SN === no);
+    if (index !== -1) {
+      database.splice(index, 1);
+    }
+  });
 }
 
 export default {

@@ -35,14 +35,15 @@ const app = createApp({
 
 
     const deleteItems = () => {
-      const selectedItem = grid.value.getSelected().map(_ => _.ReceNo)
-      if (selectedItem.length === 0) {
+      const selectedSN = grid.value.getSelected().map(_ => _.SN)
+      const selectedReceNo = grid.value.getSelected().map(_ => _.ReceNo)
+      if (selectedSN.length === 0) {
         alert('請選取欲刪除資料')
         return;
       }
-      if (confirm(`確認刪除${selectedItem.length}筆資料？`)) {
-        FakeBackend.Delete(selectedItem)
-        const messageReceNos = selectedItem.join('、');
+      if (confirm(`確認刪除${selectedSN.length}筆資料？`)) {
+        FakeBackend.Delete(selectedSN)
+        const messageReceNos = selectedReceNo.join('、');
         alert('刪除文號:' + messageReceNos);
       }
       grid.value.query();
@@ -112,12 +113,7 @@ const app = createApp({
       //儲存
       if (modalData.value.Status.key === modalStatusEnum.value.add.key) {
         const saveItem = {
-          SN: 101,  //先設固定值
           ReceNo: modalData.value.ReceNo,
-          CaseNo: `K00100`, //先設固定值
-          ComeDate: dayjs().add(0, 'day').toDate(), //先設固定值
-          ReceDate: dayjs().add(- 60, 'day').toDate(),  //先設固定值
-          FinalDate: dayjs().add(- 30, 'day').toDate(), //先設固定值
           User: modalData.value.User
           // Content:modalData.value.Content  //modal欄位有"備註"但建置data無此欄位
         }
