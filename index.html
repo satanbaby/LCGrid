@@ -116,8 +116,8 @@
         <template #toolbar="{selectedItems}">
           <div class="d-flex justify-content-between align-items-center mb-3">
               <div>
-                <button class="btn btn-color01 btn-sm me-1" @click="openModal()">
-                  <i class="fas fa-add me-2" aria-hidden="true"></i>新增
+                <button class="btn btn-color01 btn-sm me-1" @click="openModal(modalStatusEnum.add.key)"> <!--新增按鈕-->
+                  <i class="fas fa-add me-2" aria-hidden="true"></i>{{modalStatusEnum.add.label}}
                 </button>
                 <button class="btn btn-danger btn-sm me-1" @click="deleteItems">
                   <i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除
@@ -147,23 +147,30 @@
           <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
           <lc-column title="來文日期">{{item.ComeDate.toLocaleDateString()}}</lc-column>
           <lc-column title="接收日期">{{item.ReceDate.toLocaleDateString()}}</lc-column>
-          <lc-column title="到期日期"><span>{{item.FinalDate.toLocaleDateString()}}</span></lc-column>
+          <lc-column title="到期日期" :class="getFinalDateClass(item?.FinalDate)"><span>{{item.FinalDate.toLocaleDateString()}}</span></lc-column>
           <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
           <lc-column title="狀態">
             處理中
-            <button class="btn btn-sm btn-color01 outline-btn ms-1">編輯</button>
+            <button class="btn btn-sm btn-color01 outline-btn ms-1" @click="openModal(modalStatusEnum.edit.key,item)">{{modalStatusEnum.edit.label}}</button> <!--編輯按鈕-->
+            <button class="btn btn-sm btn-color01 outline-btn ms-1" @click="openModal(modalStatusEnum.view.key,item)">{{modalStatusEnum.view.label}}</button> <!--檢視按鈕-->
           </lc-column>
         </template>
       </lc-grid-vue>
       <!-- 新增燈箱 -->
-      <lc-modal ref="modalRef" @hidden="onModalHidden">
+      <lc-modal ref="modalRef" @hidden="closeModal">
         <template #header>
-          <h1 class="modal-title fs-5">彈出視窗 - {新增/編輯/檢視}</h1>
+          <h1 class="modal-title fs-5">彈出視窗 - {{modalData.Status.label}}</h1>
         </template>
         <template #body>
           <div class="mb-3">
-            <label for="input0" class="form-label required">公文文號</label>
-            <input type="text" class="form-control" v-model="modalData.ReceNo">
+            <label for="receNo" class="form-label required">公文文號</label>
+            <input v-if="modalData.Status.key!==modalStatusEnum.view.key" type="text" id="receNo" class="form-control" v-model="modalData.ReceNo">
+            <p v-else>{{modalData.ReceNo}}</p>
+          </div>
+          <div class="mb-3">
+            <label for="user" class="form-label required">承辦人</label>
+            <input v-if="modalData.Status.key!==modalStatusEnum.view.key" type="text" id="user" class="form-control" v-model="modalData.User">
+            <p v-else>{{modalData.User}}</p>
           </div>
           <div class="mb-3">
             <label for="Textarea1" class="form-label">備註</label>
@@ -171,7 +178,7 @@
           </div>
         </template>
         <template #footer>
-          <button type="button" class="btn btn-color01">儲存</button>
+          <button v-if="modalData.Status.key!==modalStatusEnum.view.key" type="button" class="btn btn-color01" @click="saveModal">儲存</button>
         </template>
       </lc-modal>
     </div>
