@@ -104,10 +104,17 @@ const Delete = (receNos) => {
     });
 }
 
+const GetNextSN = () => {
+    if (database.length === 0)
+        return 1;
+    return Math.max(...database.map(item => item.SN)) + 1;
+}
+
 export default {
   GetList,
   Get,
   Create,
   Update,
   Delete,
+  GetNextSN,
 };
