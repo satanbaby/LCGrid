@@ -195,7 +195,6 @@ export const LcGridVue = {
             }
 
             let postSearchModel = Object.assign({}, searchData.value);
-
             if (rememberQuery.value) {
                 setSessionStorage();
             }
@@ -391,7 +390,7 @@ export const LcGridVue = {
         </div>
         <div class="bg-white mb-3 p-3">
             <div class="mb-2">
-                <slot name="toolbar" :selectedItems="[...selectedItems.values()]" :searchModel="searchData"></slot>
+                <slot name="toolbar" :selectedItems="[...selectedItems.values()]"></slot>
             </div>
             <div class="table-responsive">
                 <table class="table mb-0 table-hover custom-table text-start w-100">

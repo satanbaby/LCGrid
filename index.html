@@ -1,132 +1,184 @@
 <!-- 共用模版 -->
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>教育訓練樣板</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/primevue@3.53.0/resources/themes/aura-light-green/theme.css"
+    />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <title>教育訓練樣板</title>
-  <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/primevue@3.53.0/resources/themes/aura-light-green/theme.css" />
-</head>
-
-<body cz-shortcut-listen="true">
-  <nav class="second-nav navbar navbar-expand-lg navbar-light bg-light fixed-top bg-white shadow-sm">
-    <div class="container-fluid p-0">
-      <a class="navbar-brand" href="index.html">
-        <div class="fw-bold main-color01">Vue 教育訓練</div>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.html">教育訓練題目</a>
-          </li>
-        </ul>
+  <body cz-shortcut-listen="true">
+    <nav
+      class="second-nav navbar navbar-expand-lg navbar-light bg-light fixed-top bg-white shadow-sm"
+    >
+      <div class="container-fluid p-0">
+        <a class="navbar-brand" href="index.html">
+          <div class="fw-bold main-color01">Vue 教育訓練</div>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html"
+                >教育訓練題目</a
+              >
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- 主內容Start -->
-  <main role="main">
-    <!-- 內容切換 -->
+    <!-- 主內容Start -->
+    <main role="main">
+      <!-- 內容切換 -->
 
-    <div class="container-fluid" id="app">
-      <div class="main-title">
-        <h5>教育訓練題目</h5>
-        <nav aria-label="breadcrumb" class="d-none d-sm-inline-block ms-auto">
-          <ol class="breadcrumb bg-transparent p-0 m-0">
-            <li class="breadcrumb-item">
-              <a href="#" class="text-secondary"><i class="fas fa-home me-1" aria-hidden="true"></i> 首頁</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="#" class="text-secondary">選單大項</a>
-            </li>
-            <li class="breadcrumb-item font-weight-bold main-color01 active" aria-current="page">
-              當前頁面
-            </li>
-          </ol>
-        </nav>
-      </div>
-      <lc-grid-vue ref="grid" guid="BFE88743-8568-46A4-BA7D-0BF3332B3245" query-url="url: /hello/world"
-        :selectable="true" :default-search-model="{sortField: 'ReceNo', sortAction: 'DESC'}"
-        @row-click="rowClick($event)">
-        <template #search="{searchModel}">
-          <div class="row">
-
-            <div class="col-md-4 mb-3">
-              <label class="form-label">接收日期</label>
-              <div class="row g-2">
-                <div class="col position-relative">
-                  <lc-datepicker></lc-datepicker>
+      <div class="container-fluid" id="app">
+        <test>{{test}}</test>
+        <div class="main-title">
+          <h5>教育訓練題目</h5>
+          <nav aria-label="breadcrumb" class="d-none d-sm-inline-block ms-auto">
+            <ol class="breadcrumb bg-transparent p-0 m-0">
+              <li class="breadcrumb-item">
+                <a href="#" class="text-secondary"
+                  ><i class="fas fa-home me-1" aria-hidden="true"></i> 首頁</a
+                >
+              </li>
+              <li class="breadcrumb-item">
+                <a href="#" class="text-secondary">選單大項</a>
+              </li>
+              <li
+                class="breadcrumb-item font-weight-bold main-color01 active"
+                aria-current="page"
+              >
+                當前頁面
+              </li>
+            </ol>
+          </nav>
+        </div>
+        <lc-grid-vue
+          ref="grid"
+          guid="BFE88743-8568-46A4-BA7D-0BF3332B3245"
+          query-url="url: /hello/world"
+          :selectable="true"
+          :default-search-model="{sortField: 'ReceNo', sortAction: 'DESC'}"
+        >
+          <template #search="{searchModel}">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">接收日期</label>
+                <div class="row g-2">
+                  <div class="col position-relative">
+                    <lc-datepicker></lc-datepicker>
+                  </div>
+                  <div class="col-1 d-flex align-items-center">
+                    <span>～</span>
+                  </div>
+                  <div class="col position-relative">
+                    <lc-datepicker></lc-datepicker>
+                  </div>
                 </div>
-                <div class="col-1 d-flex align-items-center">
-                  <span>～</span>
+              </div>
+              <div class="col-md-6 col-lg-3 mb-3">
+                <label class="form-label">關鍵字</label>
+                <Inputtext></Inputtext>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                <label class="form-label">下拉選單(options)</label>
+                <div>
+                  <dropdown
+                    :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
+                    option-label="Text"
+                    option-value="Value"
+                  ></dropdown>
                 </div>
-                <div class="col position-relative">
-                  <lc-datepicker></lc-datepicker>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                <label class="form-label">checkbox</label>
+                <div class="flex align-items-center">
+                  <checkbox
+                    v-model="searchModel.check_group"
+                    input-id="ingredient1"
+                    name="check-group"
+                    value="checkbox1"
+                  >
+                  </checkbox>
+                  <label for="ingredient1" class="ml-2"> 複選1 </label>
+                </div>
+                <div class="flex align-items-center">
+                  <checkbox
+                    v-model="searchModel.check_group"
+                    input-id="ingredient2"
+                    name="check-group"
+                    value="checkbox2"
+                  >
+                  </checkbox>
+                  <label for="ingredient2" class="ml-2"> 複選2 </label>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
+                <label class="form-label">radio button</label>
+                <div class="flex align-items-center">
+                  <radio-button
+                    v-model="searchModel.radio_group"
+                    input-id="radio-ingredient1"
+                    name="radio-group"
+                    value="radio-button  1"
+                  ></radio-button>
+                  <label for="radio-ingredient1" class="ml-2"> 單選1 </label>
+                </div>
+                <div class="flex align-items-center">
+                  <radio-button
+                    v-model="searchModel.radio_group"
+                    input-id="radio-ingredient2"
+                    name="radio-group"
+                    value="radio-button  2"
+                  ></radio-button>
+                  <label for="radio-ingredient2" class="ml-2"> 單選2 </label>
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-3">
-              <label class="form-label">關鍵字</label>
-              <Inputtext></Inputtext>
-            </div>
-            <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-              <label class="form-label">下拉選單(options)</label>
+          </template>
+          <template #toolbar="{selectedItems}">
+            <div class="d-flex justify-content-between align-items-center mb-3">
               <div>
-                <dropdown 
-                  :options="[{Text: '一', Value: 1}, {Text: '二', Value: 2}, {Text: '三', Value: 3},{Text: '四', Value: 4}]"
-                  option-label="Text"
-                  option-value="Value"></dropdown>
-              </div>
-            </div>
-            <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-              <label class="form-label">checkbox</label>
-              <div class="flex align-items-center">
-                <checkbox v-model="searchModel.check_group" input-id="ingredient1" name="check-group" value="checkbox1">
-                </checkbox>
-                <label for="ingredient1" class="ml-2"> 複選1 </label>
-              </div>
-              <div class="flex align-items-center">
-                <checkbox v-model="searchModel.check_group" input-id="ingredient2" name="check-group" value="checkbox2">
-                </checkbox>
-                <label for="ingredient2" class="ml-2"> 複選2 </label>
-              </div>
-            </div>
-            <div class="col-sm-3 col-md-3 col-lg-3 mb-3">
-              <label class="form-label">radio button</label>
-              <div class="flex align-items-center">
-                <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient1" name="radio-group"
-                  value="radio-button  1"></radio-button>
-                <label for="radio-ingredient1" class="ml-2"> 單選1 </label>
-              </div>
-              <div class="flex align-items-center">
-                <radio-button v-model="searchModel.radio_group" input-id="radio-ingredient2" name="radio-group"
-                  value="radio-button  2"></radio-button>
-                <label for="radio-ingredient2" class="ml-2"> 單選2 </label>
-              </div>
-            </div>
-          </div>
-        </template>
-        <template #toolbar="{selectedItems}">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-              <div>
-                <button class="btn btn-color01 btn-sm me-1" @click="openModal()">
+                <button
+                  class="btn btn-color01 btn-sm me-1"
+                  @click="openModal({ action:'create'})"
+                >
                   <i class="fas fa-add me-2" aria-hidden="true"></i>新增
                 </button>
                 <button class="btn btn-danger btn-sm me-1" @click="deleteItems">
                   <i class="far fa-trash-alt me-2" aria-hidden="true"></i>刪除
                 </button>
                 <button class="btn btn-color01 btn-sm me-1" @click="exportList">
-                  <i class="fas fa-file-alt me-2" aria-hidden="true"></i>匯出明細表
+                  <i class="fas fa-file-alt me-2" aria-hidden="true"></i
+                  >匯出明細表
                 </button>
                 <button class="btn btn-color01 btn-sm me-1" @click="changeUser">
-                  <i class="fas fa-user-edit me-2" aria-hidden="true"></i>異動承辦人
+                  <i class="fas fa-user-edit me-2" aria-hidden="true"></i
+                  >異動承辦人
                 </button>
               </div>
               <div>
@@ -140,116 +192,192 @@
                   <i class="fas fa-circle me-1"></i>逾期案件
                 </div>
               </div>
-          </div>
-        </template>
-        <template #rows="{item}">
-          <lc-column title="公文文號" sort="ReceNo">{{item.ReceNo}}</lc-column>
-          <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
-          <lc-column title="來文日期">{{item.ComeDate.toLocaleDateString()}}</lc-column>
-          <lc-column title="接收日期">{{item.ReceDate.toLocaleDateString()}}</lc-column>
-          <lc-column title="到期日期"><span>{{item.FinalDate.toLocaleDateString()}}</span></lc-column>
-          <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
-          <lc-column title="狀態">
-            處理中
-            <button class="btn btn-sm btn-color01 outline-btn ms-1">編輯</button>
-          </lc-column>
-        </template>
-      </lc-grid-vue>
-      <!-- 新增燈箱 -->
-      <lc-modal ref="modalRef" @hidden="onModalHidden">
-        <template #header>
-          <h1 class="modal-title fs-5">彈出視窗 - {新增/編輯/檢視}</h1>
-        </template>
-        <template #body>
-          <div class="mb-3">
-            <label for="input0" class="form-label required">公文文號</label>
-            <input type="text" class="form-control" v-model="modalData.ReceNo">
-          </div>
-          <div class="mb-3">
-            <label for="Textarea1" class="form-label">備註</label>
-            <textarea class="form-control" rows="3" v-model="modalData.Content"></textarea>
-          </div>
-        </template>
-        <template #footer>
-          <button type="button" class="btn btn-color01">儲存</button>
-        </template>
-      </lc-modal>
-    </div>
-  </main>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.13/dayjs.min.js" integrity="sha512-FwNWaxyfy2XlEINoSnZh1JQ5TRRtGow0D6XcmAWmYCRgvqOUTnzCxPc9uF35u5ZEpirk1uhlPVA19tflhvnW1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="https://unpkg.com/primevue@4.3.2/umd/primevue.min.js"></script>
-  <script src="https://unpkg.com/@primevue/themes@4.2.5/umd/aura.min.js"></script>
-  <script>
-    (() => {
-      const primevueOption = {
-        theme: {
-            preset: PrimeVue.Themes.Aura
-        },
-        pt: {
-          password: {
-            root: 'w-100',
-            input: {
-              root: 'w-100'
-            }
+            </div>
+          </template>
+          <template #rows="{item}">
+            <lc-column title="公文文號" sort="ReceNo"
+              >{{item.ReceNo}}</lc-column
+            >
+            <lc-column title="案號" sort="CaseNo">{{item.CaseNo}}</lc-column>
+            <lc-column title="來文日期"
+              >{{item.ComeDate.toLocaleDateString()}}</lc-column
+            >
+            <lc-column title="接收日期"
+              >{{item.ReceDate.toLocaleDateString()}}</lc-column
+            >
+            <lc-column title="到期日期"
+              ><span :class="switchColor(item.FinalDate)"
+                >{{item.FinalDate.toLocaleDateString()}}</span
+              ></lc-column
+            >
+            <lc-column title="承辦人"><span>{{item.User}}</span></lc-column>
+            <lc-column title="狀態">
+              處理中
+              <button
+                class="btn btn-sm btn-color01 outline-btn ms-1"
+                @click="openModal({item, action:'edit'})"
+              >
+                編輯
+              </button>
+              <button
+                class="btn btn-sm btn-color01 outline-btn ms-1"
+                @click="openModal({item, action:'review'})"
+              >
+                檢視
+              </button>
+            </lc-column>
+          </template>
+        </lc-grid-vue>
+        <!-- 燈箱 -->
+        <lc-modal ref="modalRef" @hidden="onModalHidden">
+          <template #header>
+            <h1 class="modal-title fs-5">彈出視窗 - {{modeText}}</h1>
+          </template>
+          <template #body>
+            <div v-else>
+              <div class="mb-3">
+                <label for="input0" class="form-label required">承辦人</label>
+                <p v-if="mode ==='review'">{{modalData.User}}</p>
+                <input
+                  v-else
+                  type="text"
+                  class="form-control"
+                  v-model="modalData.User"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="input0" class="form-label required">公文文號</label>
+                <p v-if="mode ==='review'">{{modalData.ReceNo}}</p>
+                <input
+                  v-else
+                  type="text"
+                  class="form-control"
+                  v-model="modalData.ReceNo"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="Textarea1" class="form-label">備註</label>
+                <textarea
+                  class="form-control"
+                  rows="3"
+                  v-model="modalData.Content"
+                ></textarea>
+              </div>
+            </div>
+          </template>
+          <template #footer>
+            <button
+              v-if="mode!=='review'"
+              type="button"
+              @click="modalSave()"
+              class="btn btn-color01"
+            >
+              儲存
+            </button>
+          </template>
+        </lc-modal>
+        <notice-modal ref="deleteModalRef" modal-size="modal-sm">
+          <template #header>
+            <p v-if="deleteModalData.length!==0">確認刪除{{deleteModalData.length}}筆資料</p>
+            <p v-else>請選取欲刪除資料</p>
+          </template>
+          <template #body>    
+            <ul v-if="deleteModalData.length!==0">
+              <li v-for="caseNo in deleteModalData">{{caseNo}}</li>
+            </ul>
+            <p v-else>你沒東西刪除喔</p>
+          </template>
+          <template #footer="{hide}">
+            <button class="btn btn-outline-secondary" @click="hide">
+              取消
+            </button>
+            <button v-if="deleteModalData.length!==0" class="btn btn-outline-danger" @click="deleteCases">
+              確認刪除
+            </button>
+          </template>
+        </notice-modal>
+      </div>
+    </main>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.13/dayjs.min.js"
+      integrity="sha512-FwNWaxyfy2XlEINoSnZh1JQ5TRRtGow0D6XcmAWmYCRgvqOUTnzCxPc9uF35u5ZEpirk1uhlPVA19tflhvnW1g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/primevue@4.3.2/umd/primevue.min.js"></script>
+    <script src="https://unpkg.com/@primevue/themes@4.2.5/umd/aura.min.js"></script>
+    <!-- 在瀏覽器執行、透過 CDN 載入 Vue 與 PrimeVue 的全域版本 -->
+    <script>
+      (() => {
+        const primevueOption = {
+          theme: {
+            preset: PrimeVue.Themes.Aura,
           },
-          inputText: {
-            root: 'w-100 lh-base'
+          pt: {
+            password: {
+              root: "w-100",
+              input: {
+                root: "w-100",
+              },
+            },
+            inputText: {
+              root: "w-100 lh-base",
+            },
+            inputNumber: {
+              root: "w-100 lh-base",
+            },
+            select: {
+              root: "w-100",
+            },
+            multiselect: {
+              root: {
+                style: "min-width: 100%;",
+              },
+            },
+            datepicker: {
+              root: "w-100 p-0 border-0",
+            },
+            checkbox: {
+              box: "b-gray-600 b-2",
+            },
           },
-          inputNumber: {
-            root: 'w-100 lh-base'
+          zIndex: {
+            overlay: 2000,
           },
-          select: {
-            root: 'w-100'
-          },
-          multiselect: {
-            root: {
-              style: 'min-width: 100%;'
-            }
-          },
-          datepicker: {
-            root: 'w-100 p-0 border-0',
-          },
-          checkbox: {
-            box: "b-gray-600 b-2"
-          }
-        },
-        zIndex: {
-          overlay: 2000,
-        }
-      }
-      PrimeVue.InputNumber.extends.props.minFractionDigits.default = 0
-      PrimeVue.InputNumber.extends.props.maxFractionDigits.default = 6
+        };
+        PrimeVue.InputNumber.extends.props.minFractionDigits.default = 0;
+        PrimeVue.InputNumber.extends.props.maxFractionDigits.default = 6;
 
-      const originalCreateApp = Vue.createApp
-      Vue.createApp = (options) => {
-        const app = originalCreateApp(options)
-          .component('dropdown', PrimeVue.Select)
-          .component('datepicker', PrimeVue.DatePicker)
-          .component('Inputswitch', PrimeVue.ToggleSwitch)
-          .component('checkbox', PrimeVue.Checkbox)
-          .component('radioButton', PrimeVue.RadioButton)
-          .component('fileupload', PrimeVue.FileUpload)
-          .component('Inputtext', PrimeVue.InputText)
-          .component('Password', PrimeVue.Password)
-          .component('accordion', PrimeVue.Accordion)
-          .component('accordiontab', PrimeVue.AccordionTab)
-          .component('fieldset ', PrimeVue.Fieldset)
-          .component('multiselect', PrimeVue.MultiSelect)
-          .component('textArea', PrimeVue.Textarea)
-          .component('inputMask', PrimeVue.InputMask)
-          .component('inputNumber', PrimeVue.InputNumber)
-          .component('autocomplete', PrimeVue.AutoComplete)
-          .component('card', PrimeVue.Card)
-          .component('skeleton', PrimeVue.Skeleton)
-          .component('modal', PrimeVue.Dialog)
-          .use(PrimeVue.Config, primevueOption)
-        return app
-      }
-    })()
-
-  </script>
-  <script type="module" src="./src/index.js"></script>
-</body>
-
+        const originalCreateApp = Vue.createApp;
+        // 把整包vue先用變數存起來
+        Vue.createApp = (options) => {
+          // 把本來的覆蓋成自己做的版本，讓瀏覽器上面的這個vue可以直接使用(共享)這些元件，之後再index.js呼叫的就是這個版本
+          const app = originalCreateApp(options)
+            .component("dropdown", PrimeVue.Select)
+            .component("datepicker", PrimeVue.DatePicker)
+            .component("Inputswitch", PrimeVue.ToggleSwitch)
+            .component("checkbox", PrimeVue.Checkbox)
+            .component("radioButton", PrimeVue.RadioButton)
+            .component("fileupload", PrimeVue.FileUpload)
+            .component("Inputtext", PrimeVue.InputText)
+            .component("Password", PrimeVue.Password)
+            .component("accordion", PrimeVue.Accordion)
+            .component("accordiontab", PrimeVue.AccordionTab)
+            .component("fieldset ", PrimeVue.Fieldset)
+            .component("multiselect", PrimeVue.MultiSelect)
+            .component("textArea", PrimeVue.Textarea)
+            .component("inputMask", PrimeVue.InputMask)
+            .component("inputNumber", PrimeVue.InputNumber)
+            .component("autocomplete", PrimeVue.AutoComplete)
+            .component("card", PrimeVue.Card)
+            .component("skeleton", PrimeVue.Skeleton)
+            .component("modal", PrimeVue.Dialog)
+            .use(PrimeVue.Config, primevueOption);
+          return app;
+        };
+      })();
+    </script>
+    <script type="module" src="./src/index.js"></script>
+  </body>
 </html>

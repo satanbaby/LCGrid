@@ -1,7 +1,7 @@
 # 教育訓練說明文件
 
 [在 StackBlitz 下一代編輯器中編輯 ⚡️](https://stackblitz.com/~/github.com/satanbaby/LCGrid)
-
+123
 ## 功能需求
 1. 在彈跳視窗中，新增 [承辦人] 欄位（新增按鈕可呼叫彈跳視窗）
 2. 新增：按下儲存後列表新增一筆資料，並關閉彈跳視窗

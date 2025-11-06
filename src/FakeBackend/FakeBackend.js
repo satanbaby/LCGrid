@@ -1,9 +1,9 @@
 const database = [];
 for (let i = 0; i < 100; i++)
     database.push({
-        SN: i + 1,
-        ReceNo: `11201010000${i.toString().padStart(2, '0')}`,
-        CaseNo: `K000${i.toString().padStart(2, '0')}`,
+        SN: i + 1,    
+        ReceNo: `11201010000${i.toString().padStart(3, '0')}`, //修正排序錯誤根源
+        CaseNo: `K000${i.toString().padStart(3, '0')}`,
         ComeDate: dayjs().add(i, 'day').toDate(),
         ReceDate: dayjs().add(i - 60, 'day').toDate(),
         FinalDate: dayjs().add(i - 30, 'day').toDate(),
@@ -12,6 +12,7 @@ for (let i = 0; i < 100; i++)
     
 
 const allField = Object.getOwnPropertyNames(database[0])
+// 取出object的key名稱變成一個陣列["SN", "ReceNo", "CaseNo", "ComeDate", "ReceDate", "FinalDate", "User"]
 
 /**
  * 分頁並排序資料
@@ -30,7 +31,7 @@ const paginateData = ({pageSize, nowPage, sortAction, sortField}) => {
   const action = validSortActions.includes(sortAction) ? sortAction : 'ASC';
   // 檢查排序欄位是否存在
   const validSortFields = allField;
-  const field = validSortFields.includes(sortField) ? sortField : 'ID'; // 預設排序欄位為 id
+  const field = validSortFields.includes(sortField) ? sortField : 'SN'; // 預設排序欄位為 id(sn)
   
   // 根據排序方式和排序欄位對資料進行排序
   const sortedData = database.slice().sort((a, b) => {
@@ -49,10 +50,11 @@ const paginateData = ({pageSize, nowPage, sortAction, sortField}) => {
   const result = sortedData.slice(startIndex, endIndex);
   return {
     rows: structuredClone(result),
+  //  把原物件座深拷貝
     total: sortedData.length
+    // 整個db的長度
   };
 }
-
 /**
  * 根據搜尋模型返回分頁資料
  * @param {Object} searchModel - 搜尋模型
@@ -61,6 +63,8 @@ const paginateData = ({pageSize, nowPage, sortAction, sortField}) => {
 const GetList = (searchModel) => {
   return paginateData(searchModel);
 }
+
+const GetDataLength = ()=> database.length;
 
 /**
  * 根據 ID 獲取單筆資料
@@ -76,7 +80,7 @@ const Get = (id) => {
  * @param {Object} item - 新增的資料
  */
 const Create = (item) => {
-  database.push(item);
+  return database.push(item);
 }
 
 /**
@@ -86,7 +90,8 @@ const Create = (item) => {
  */
 const Update = (id, updatedItem) => {
   const index = database.findIndex(item => item.SN === id);
-  if (index !== -1) {
+  const hasData = index !== -1
+  if (hasData) {
     database[index] = { ...database[index], ...updatedItem };
   }
 }
@@ -100,6 +105,7 @@ const Delete = (receNos) => {
         const index = database.findIndex(item => item.ReceNo === no);
         if (index !== -1) {
             database.splice(index, 1);
+            //這個不用做拷貝了就是直接刪除，從index開始刪除幾個
         }
     });
 }
@@ -110,4 +116,5 @@ export default {
   Create,
   Update,
   Delete,
+  GetDataLength,
 };
